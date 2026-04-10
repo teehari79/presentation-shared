@@ -1,0 +1,13 @@
+config_id: task_routes
+version: 1.0.0
+task_routes:
+  understanding:
+    model_profile: reasoning_primary
+    prompt_config: understanding_v3.yaml
+  chunk_summarization:
+    model_profile: summarizer_fast
+    prompt_config: chunk_summary_v1.yaml
+  json_formatting:
+    model_profile: formatter_strict
+  outline_generation:
+    model_profile: reasoning_primary

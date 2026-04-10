@@ -1,0 +1,10 @@
+config_id: presentation_quality
+version: 1.0.0
+slides:
+  max_title_words: 10
+  max_bullets: 5
+  max_words_per_bullet: 12
+  max_paragraph_words: 40
+export_thresholds:
+  min_quality_score: 0.75
+  block_on_critical_findings: true

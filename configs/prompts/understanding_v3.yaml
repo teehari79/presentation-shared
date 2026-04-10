@@ -1,0 +1,10 @@
+prompt_id: understanding
+version: 3.1.0
+status: active
+system_template_path: prompts/understanding/system.md
+user_template_path: prompts/understanding/user.md
+output_schema_path: schemas/understanding.schema.json
+model_profile: reasoning_primary
+parameters:
+  temperature: 0.2
+  max_output_tokens: 3000

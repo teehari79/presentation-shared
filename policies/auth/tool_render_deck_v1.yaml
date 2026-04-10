@@ -1,0 +1,13 @@
+policy_id: tool_render_deck_v1
+version: 1.0.0
+resource: tool:render_deck
+effect: allow
+roles_any_of:
+  - deck_creator
+  - admin
+conditions_all:
+  - session.approvals.understanding_approved == true
+  - session.approvals.outline_approved == true
+  - session.tenant_id == user.tenant_id
+deny_if_any:
+  - safety.final_block == true

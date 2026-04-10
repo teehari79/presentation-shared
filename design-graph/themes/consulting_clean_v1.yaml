@@ -1,0 +1,10 @@
+theme_id: consulting_clean
+version: 1.0.0
+supports_strict_corporate_mode: true
+supported_deck_types:
+  - proposal
+  - executive_summary
+  - status_update
+supported_densities:
+  - sparse
+  - balanced

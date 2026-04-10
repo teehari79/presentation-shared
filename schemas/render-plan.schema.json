@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RenderPlan",
+  "type": "object",
+  "required": ["theme_id", "slides"],
+  "properties": {
+    "theme_id": {"type": "string"},
+    "strict_corporate_mode": {"type": "boolean"},
+    "density_preference": {"type": "string"},
+    "slides": {"type": "array", "items": {"type": "object"}}
+  }
+}

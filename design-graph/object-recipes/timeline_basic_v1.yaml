@@ -1,0 +1,7 @@
+recipe_id: timeline_basic
+version: 1.0.0
+semantic_intent: chronology
+shape_family: timeline
+min_items: 3
+max_items: 7
+strict_corporate_compatible: true

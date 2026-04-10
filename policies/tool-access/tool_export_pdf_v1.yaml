@@ -1,0 +1,9 @@
+policy_id: tool_export_pdf_v1
+version: 1.0.0
+resource: tool:export_pdf
+effect: allow
+roles_any_of:
+  - deck_creator
+  - admin
+conditions_all:
+  - session.workflow_stage in ["QA_REVIEWED", "READY_FOR_EXPORT"]

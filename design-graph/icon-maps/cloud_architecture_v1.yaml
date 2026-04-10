@@ -1,0 +1,9 @@
+map_id: cloud_architecture_v1
+version: 1.0.0
+providers:
+  - aws
+  - azure
+  - gcp
+usage:
+  solution_architecture: true
+  status_update: limited

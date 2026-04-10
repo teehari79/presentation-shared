@@ -1,0 +1,7 @@
+config_id: feature_flags
+version: 1.0.0
+flags:
+  strict_corporate_mode: true
+  single_slide_regeneration: true
+  cloud_icon_packs: true
+  baseline_deck_reference_mode: true

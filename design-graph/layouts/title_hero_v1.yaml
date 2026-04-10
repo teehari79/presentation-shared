@@ -1,0 +1,8 @@
+layout_id: title_hero_v1
+version: 1.0.0
+visual_intent: hero_title
+placeholder_ids:
+  - ph_title
+  - ph_subtitle
+  - ph_logo
+strict_corporate_compatible: true

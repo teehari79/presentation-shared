@@ -1,0 +1,9 @@
+config_id: chunk_summary_policy
+version: 1.0.0
+retain:
+  max_key_points: 8
+  max_numbers: 10
+  max_risks: 5
+  max_recommendations: 5
+require_source_refs: true
+compression_ratio_target: 0.2

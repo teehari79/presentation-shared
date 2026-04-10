@@ -1,0 +1,7 @@
+config_id: consolidation
+version: 1.0.0
+dedup_similarity_threshold: 0.9
+topic_merge_threshold: 0.82
+rare_topic_preservation_threshold: 0.65
+max_topics_in_final_understanding: 15
+numeric_evidence_weight: 1.25

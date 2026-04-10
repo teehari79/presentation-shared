@@ -1,0 +1,10 @@
+prompt_id: chunk_summary
+version: 1.0.0
+status: active
+system_template_path: prompts/summarization/chunk_system.md
+user_template_path: prompts/summarization/chunk_user.md
+output_schema_path: schemas/chunk-summary.schema.json
+model_profile: summarizer_fast
+parameters:
+  temperature: 0.1
+  max_output_tokens: 1200

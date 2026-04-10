@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DeckSpec",
+  "type": "object",
+  "required": ["deck_type", "title", "slides"],
+  "properties": {
+    "deck_type": {"type": "string"},
+    "title": {"type": "string"},
+    "subtitle": {"type": ["string", "null"]},
+    "slides": {
+      "type": "array",
+      "items": {"type": "object"}
+    }
+  }
+}

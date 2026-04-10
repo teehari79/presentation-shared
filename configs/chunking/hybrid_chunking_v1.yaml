@@ -1,0 +1,15 @@
+config_id: hybrid_chunking
+version: 1.0.0
+strategy: hybrid
+topic_chunking:
+  enabled: true
+  max_chars: 12000
+  min_chars: 2500
+  heading_sensitivity: medium
+page_window_fallback:
+  enabled: true
+  window_pages: 3
+  overlap_pages: 1
+linking:
+  preserve_adjacency_links: true
+  preserve_topic_links: true

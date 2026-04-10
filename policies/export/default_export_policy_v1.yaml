@@ -1,0 +1,7 @@
+policy_id: default_export_policy_v1
+version: 1.0.0
+require_approvals:
+  understanding: true
+  outline: true
+block_on_critical_qa: true
+block_on_unresolved_safety: true

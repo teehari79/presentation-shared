@@ -1,0 +1,6 @@
+config_id: runtime_thresholds
+version: 1.0.0
+pii_confidence_threshold: 0.7
+secret_confidence_threshold: 0.6
+toxicity_confidence_threshold: 0.8
+bias_confidence_threshold: 0.75

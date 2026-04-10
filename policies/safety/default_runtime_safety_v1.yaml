@@ -1,0 +1,14 @@
+policy_id: default_runtime_safety_v1
+version: 1.0.0
+pii:
+  action: redact
+  threshold: 0.7
+secrets:
+  action: block
+  threshold: 0.6
+toxicity:
+  action: rewrite_or_block
+  threshold: 0.8
+bias:
+  action: human_review
+  threshold: 0.75

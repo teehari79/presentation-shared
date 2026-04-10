@@ -1,0 +1,27 @@
+config_id: model_profiles
+version: 1.0.0
+model_profiles:
+  reasoning_primary:
+    provider: openai
+    model: gpt-5.4
+    temperature: 0.2
+    top_p: 0.9
+    max_output_tokens: 4000
+    timeout_seconds: 60
+    retries: 2
+  summarizer_fast:
+    provider: openai
+    model: gpt-5-mini
+    temperature: 0.1
+    top_p: 0.95
+    max_output_tokens: 1500
+    timeout_seconds: 30
+    retries: 2
+  formatter_strict:
+    provider: openai
+    model: gpt-5-mini
+    temperature: 0.0
+    top_p: 1.0
+    max_output_tokens: 1200
+    timeout_seconds: 20
+    retries: 1

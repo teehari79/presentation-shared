@@ -1,0 +1,7 @@
+sample_id: proposal_title_sample_v1
+version: 1.0.0
+theme_id: consulting_clean
+deck_type: proposal
+visual_intent: hero_title
+density: sparse
+quality_score: 0.93
