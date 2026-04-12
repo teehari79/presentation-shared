@@ -1,0 +1,20 @@
+version: v1
+kind: abac
+rules:
+  - id: render_requires_approved_outline
+    effect: allow
+    action: render_deck
+    conditions:
+      outline_approved: true
+      session_status_in: [approved, rendering]
+  - id: export_requires_safety_pass
+    effect: allow
+    action: export_pdf
+    conditions:
+      latest_safety_decision_in: [allow]
+  - id: disallow_tools_for_blocked_sessions
+    effect: deny
+    action: '*'
+    conditions:
+      session_status_in: [failed]
+default_effect: deny

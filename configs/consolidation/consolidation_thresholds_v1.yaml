@@ -1,0 +1,8 @@
+version: v1
+kind: consolidation_thresholds
+semantic_similarity:
+  merge_if_above: 0.86
+  keep_distinct_if_below: 0.68
+facts:
+  max_conflict_ratio: 0.12
+  require_citation_for_novel_claims: true

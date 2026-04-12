@@ -1,0 +1,6 @@
+version: v1
+prompt_id: understanding_v1
+stage: understanding
+system_template: prompts/understanding/system_v1.md
+user_template: prompts/understanding/user_v1.md
+schema_target: schemas/extracted-understanding.schema.json

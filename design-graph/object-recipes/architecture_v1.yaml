@@ -1,0 +1,8 @@
+version: v1
+object_recipe: architecture
+layout_hint: two_column
+nodes:
+  - layer
+  - component
+  - interface
+  - protocol

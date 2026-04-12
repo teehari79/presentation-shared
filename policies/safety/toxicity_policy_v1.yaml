@@ -1,0 +1,8 @@
+version: v1
+kind: toxicity_policy
+thresholds:
+  review: 0.55
+  block: 0.8
+actions:
+  review_required_on_threshold: true
+  block_on_threshold: true

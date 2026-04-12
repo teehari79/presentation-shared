@@ -1,0 +1,10 @@
+version: v1
+kind: bias_policy
+protected_dimensions:
+  - race
+  - gender
+  - age
+  - disability
+thresholds:
+  review: 0.5
+  block: 0.82

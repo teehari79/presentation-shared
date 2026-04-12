@@ -1,0 +1,11 @@
+version: v1
+kind: pii_policy
+actions:
+  detect: true
+  redact: true
+  block_on_high_confidence: true
+patterns:
+  - email
+  - phone
+  - ssn
+  - credit_card

@@ -1,0 +1,9 @@
+{
+  "session_id": "sess_abc12345",
+  "decision": "allow",
+  "categories": [
+    {"category": "pii", "score": 0.12, "threshold": 0.75},
+    {"category": "toxicity", "score": 0.04, "threshold": 0.8}
+  ],
+  "notes": "No blocking signals detected."
+}

@@ -1,13 +1,23 @@
-config_id: task_routes
-version: 1.0.0
-task_routes:
-  understanding:
-    model_profile: reasoning_primary
-    prompt_config: understanding_v3.yaml
-  chunk_summarization:
-    model_profile: summarizer_fast
-    prompt_config: chunk_summary_v1.yaml
-  json_formatting:
-    model_profile: formatter_strict
-  outline_generation:
-    model_profile: reasoning_primary
+version: v1
+kind: task_routing
+default_profile: balanced
+routes:
+  understanding.extract:
+    profile: balanced
+    fallback_profiles: [fast]
+  summarization.chunk:
+    profile: fast
+    fallback_profiles: [balanced]
+  summarization.consolidate:
+    profile: balanced
+    fallback_profiles: [quality]
+  clarification.generate:
+    profile: balanced
+  outline.generate:
+    profile: quality
+    fallback_profiles: [balanced]
+  deck_spec.generate:
+    profile: quality
+    fallback_profiles: [balanced]
+  qa.evaluate:
+    profile: balanced

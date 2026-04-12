@@ -1,10 +1,10 @@
 version: v1
-theme_id: consulting_clean
+theme_id: executive_dark
 palette:
-  background: '#FFFFFF'
-  surface: '#F7F9FC'
-  text_primary: '#102A43'
-  accent: '#2F80ED'
+  background: '#0F172A'
+  surface: '#1E293B'
+  text_primary: '#E2E8F0'
+  accent: '#38BDF8'
 typography:
   heading: Inter SemiBold
   body: Inter Regular

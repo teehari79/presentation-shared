@@ -1,0 +1,7 @@
+version: v1
+object_recipe: process
+layout_hint: process_flow
+nodes:
+  - step
+  - detail
+  - outcome

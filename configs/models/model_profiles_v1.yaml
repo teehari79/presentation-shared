@@ -1,27 +1,28 @@
-config_id: model_profiles
-version: 1.0.0
-model_profiles:
-  reasoning_primary:
+version: v1
+kind: model_profiles
+default_profile: balanced
+profiles:
+  balanced:
+    description: General purpose profile for extraction and generation.
     provider: openai
-    model: gpt-5.4
+    model: gpt-5.1
+    max_input_tokens: 128000
+    max_output_tokens: 8000
     temperature: 0.2
-    top_p: 0.9
-    max_output_tokens: 4000
-    timeout_seconds: 60
-    retries: 2
-  summarizer_fast:
-    provider: openai
-    model: gpt-5-mini
-    temperature: 0.1
-    top_p: 0.95
-    max_output_tokens: 1500
-    timeout_seconds: 30
-    retries: 2
-  formatter_strict:
-    provider: openai
-    model: gpt-5-mini
-    temperature: 0.0
     top_p: 1.0
-    max_output_tokens: 1200
-    timeout_seconds: 20
-    retries: 1
+  fast:
+    description: Low-latency profile for routing and light summarization.
+    provider: openai
+    model: gpt-5-mini
+    max_input_tokens: 64000
+    max_output_tokens: 3000
+    temperature: 0.1
+    top_p: 1.0
+  quality:
+    description: High-quality profile for deck spec and final polish.
+    provider: openai
+    model: gpt-5.1
+    max_input_tokens: 128000
+    max_output_tokens: 12000
+    temperature: 0.3
+    top_p: 1.0

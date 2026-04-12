@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/understanding-approval.schema.json",
+  "title": "Understanding Approval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["session_id", "approved", "approved_at"],
+  "properties": {
+    "session_id": {"type": "string"},
+    "approved": {"type": "boolean"},
+    "approved_at": {"type": "string", "format": "date-time"},
+    "approved_by": {"type": "string"},
+    "comments": {"type": "string"}
+  }
+}

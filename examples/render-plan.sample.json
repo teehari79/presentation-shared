@@ -1,0 +1,12 @@
+{
+  "theme_id": "consulting_clean",
+  "strict_corporate_mode": true,
+  "density_preference": "balanced",
+  "slides": [
+    {
+      "slide_id": "slide_1",
+      "layout": "title_hero",
+      "bindings": {"title": "Q3 Growth Strategy"}
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+version: v1
+kind: chunking_strategy
+strategy: hybrid_sentence_token
+max_chunk_tokens: 1400
+overlap_tokens: 150
+respect_headings: true
+min_chunk_tokens: 200

@@ -1,0 +1,8 @@
+version: v1
+kind: quality_thresholds
+overall_min_score: 0.82
+checks:
+  narrative_coherence_min: 0.8
+  source_faithfulness_min: 0.9
+  visual_clarity_min: 0.78
+  audience_fit_min: 0.8

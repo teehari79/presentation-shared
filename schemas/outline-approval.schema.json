@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/outline-approval.schema.json",
+  "title": "Outline Approval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["session_id", "outline_version", "approved", "approved_at"],
+  "properties": {
+    "session_id": {"type": "string"},
+    "outline_version": {"type": "string"},
+    "approved": {"type": "boolean"},
+    "approved_at": {"type": "string", "format": "date-time"},
+    "feedback": {"type": "string"}
+  }
+}

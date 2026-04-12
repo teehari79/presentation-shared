@@ -1,0 +1,12 @@
+{
+  "deck_type": "executive_update",
+  "title": "Q3 Growth Strategy",
+  "subtitle": "Board Briefing",
+  "slides": [
+    {
+      "slide_id": "slide_1",
+      "layout": "title_hero",
+      "title": "Q3 Growth Strategy"
+    }
+  ]
+}

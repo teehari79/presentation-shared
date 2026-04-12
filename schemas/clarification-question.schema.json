@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/clarification-question.schema.json",
+  "title": "Clarification Question",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["question_id", "session_id", "question", "priority"],
+  "properties": {
+    "question_id": {"type": "string", "pattern": "^q_[A-Za-z0-9_-]{6,}$"},
+    "session_id": {"type": "string"},
+    "question": {"type": "string", "minLength": 4},
+    "reason": {"type": "string"},
+    "priority": {"type": "string", "enum": ["high", "medium", "low"]},
+    "blocking": {"type": "boolean", "default": true}
+  }
+}

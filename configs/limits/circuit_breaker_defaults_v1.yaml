@@ -1,0 +1,12 @@
+version: v1
+kind: circuit_breaker_defaults
+defaults:
+  max_failures: 5
+  rolling_window_seconds: 120
+  open_state_seconds: 60
+  half_open_trial_requests: 2
+by_operation:
+  llm_completion:
+    max_failures: 4
+  rendering_call:
+    max_failures: 3

@@ -1,0 +1,10 @@
+{
+  "session_id": "sess_abc12345",
+  "objective": "Build an executive-ready strategy deck for Q3 planning.",
+  "audience": "Executive leadership team",
+  "tone": "confident, concise",
+  "key_points": ["Retention growth", "Margin expansion", "Execution roadmap"],
+  "constraints": ["20-minute presentation", "No confidential customer data"],
+  "assumptions": ["Budget approved", "Headcount unchanged"],
+  "risks": ["Timeline compression"]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/source-document.schema.json",
+  "title": "Source Document",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["document_id", "session_id", "kind", "content", "ingested_at"],
+  "properties": {
+    "document_id": {"type": "string", "pattern": "^doc_[A-Za-z0-9_-]{8,}$"},
+    "session_id": {"type": "string"},
+    "kind": {"type": "string", "enum": ["text", "markdown", "pdf", "docx", "url"]},
+    "title": {"type": "string"},
+    "content": {"type": "string", "minLength": 1},
+    "source_uri": {"type": "string", "format": "uri"},
+    "language": {"type": "string", "default": "en"},
+    "ingested_at": {"type": "string", "format": "date-time"}
+  }
+}
