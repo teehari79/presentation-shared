@@ -1,0 +1,21 @@
+version: v1
+kind: tool_access_policy
+tools:
+  summarize_chunk:
+    risk_level: low
+    requires_human_approval: false
+  consolidate_summary:
+    risk_level: low
+    requires_human_approval: false
+  generate_outline:
+    risk_level: medium
+    requires_human_approval: false
+  generate_deck_spec:
+    risk_level: medium
+    requires_human_approval: false
+  render_deck:
+    risk_level: medium
+    requires_human_approval: true
+  export_pdf:
+    risk_level: high
+    requires_human_approval: true

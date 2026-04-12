@@ -1,0 +1,12 @@
+version: v1
+kind: rbac
+roles:
+  orchestrator:
+    allow_tools: [summarize_chunk, consolidate_summary, generate_outline, generate_deck_spec]
+  analyst:
+    allow_tools: [summarize_chunk, consolidate_summary]
+  reviewer:
+    allow_tools: [run_qa, run_safety_checks]
+  renderer:
+    allow_tools: [render_deck, export_pdf]
+default_deny: true

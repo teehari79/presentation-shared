@@ -1,0 +1,12 @@
+version: v1
+layouts:
+  - id: title_hero
+    slots: [title, subtitle, hero_visual]
+  - id: section_break
+    slots: [section_title, section_context]
+  - id: two_column
+    slots: [left_content, right_content]
+  - id: comparison
+    slots: [left_option, right_option, decision]
+  - id: process_flow
+    slots: [steps]

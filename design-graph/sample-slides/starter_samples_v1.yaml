@@ -1,0 +1,10 @@
+version: v1
+samples:
+  - id: sample_title
+    layout: title_hero
+    title: Q3 Growth Strategy
+    subtitle: Board Briefing
+  - id: sample_process
+    layout: process_flow
+    title: Implementation Plan
+    steps: [Discover, Design, Build, Launch]

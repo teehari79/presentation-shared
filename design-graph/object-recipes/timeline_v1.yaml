@@ -1,0 +1,7 @@
+version: v1
+object_recipe: timeline
+layout_hint: process_flow
+nodes:
+  - date
+  - milestone
+  - owner

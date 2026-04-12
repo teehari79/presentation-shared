@@ -1,0 +1,10 @@
+version: v1
+kind: safety_thresholds
+scores:
+  pii_review_threshold: 0.45
+  pii_block_threshold: 0.75
+  secrets_block_threshold: 0.6
+  toxicity_review_threshold: 0.55
+  toxicity_block_threshold: 0.8
+  bias_review_threshold: 0.5
+  bias_block_threshold: 0.82

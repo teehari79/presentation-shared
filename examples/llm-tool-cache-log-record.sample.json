@@ -1,0 +1,11 @@
+{
+  "record_id": "log_a1b2c3d4",
+  "session_id": "sess_abc12345",
+  "kind": "llm",
+  "operation": "outline.generate",
+  "latency_ms": 2280,
+  "input_tokens": 3500,
+  "output_tokens": 940,
+  "cache_hit": false,
+  "timestamp": "2026-04-12T10:20:00Z"
+}

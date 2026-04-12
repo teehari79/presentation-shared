@@ -1,7 +1,12 @@
-config_id: feature_flags
-version: 1.0.0
+version: v1
+kind: feature_flags
 flags:
-  strict_corporate_mode: true
-  single_slide_regeneration: true
-  cloud_icon_packs: true
-  baseline_deck_reference_mode: true
+  enable_clarification_roundtrip:
+    enabled: true
+    owner: product
+  enable_citation_enforcement:
+    enabled: true
+    owner: quality
+  enable_icon_suggestion:
+    enabled: false
+    owner: design

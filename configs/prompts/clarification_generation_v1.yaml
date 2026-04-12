@@ -1,0 +1,6 @@
+version: v1
+prompt_id: clarification_generation_v1
+stage: understanding
+system_template: prompts/understanding/clarification_system_v1.md
+user_template: prompts/understanding/clarification_user_v1.md
+schema_target: schemas/clarification-question.schema.json

@@ -1,0 +1,11 @@
+version: v1
+theme_id: tech_architecture
+palette:
+  background: '#F8FAFC'
+  surface: '#E2E8F0'
+  text_primary: '#0B1324'
+  accent: '#6D28D9'
+typography:
+  heading: IBM Plex Sans SemiBold
+  body: IBM Plex Sans
+spacing_scale: [4, 8, 12, 16, 24, 32, 48]

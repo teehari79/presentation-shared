@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/session.schema.json",
+  "title": "Presentation Session",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["session_id", "tenant_id", "user_id", "status", "created_at", "updated_at"],
+  "properties": {
+    "session_id": {"type": "string", "pattern": "^sess_[A-Za-z0-9_-]{8,}$"},
+    "tenant_id": {"type": "string", "minLength": 1},
+    "user_id": {"type": "string", "minLength": 1},
+    "locale": {"type": "string", "default": "en-US"},
+    "status": {"type": "string", "enum": ["created", "understanding", "approved", "rendering", "completed", "failed"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "metadata": {"type": "object", "additionalProperties": {"type": ["string", "number", "boolean", "null"]}}
+  }
+}

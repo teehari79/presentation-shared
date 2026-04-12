@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/extracted-understanding.schema.json",
+  "title": "Extracted Understanding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["session_id", "objective", "audience", "key_points", "constraints", "assumptions"],
+  "properties": {
+    "session_id": {"type": "string"},
+    "objective": {"type": "string", "minLength": 1},
+    "audience": {"type": "string", "minLength": 1},
+    "tone": {"type": "string"},
+    "key_points": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "constraints": {"type": "array", "items": {"type": "string"}},
+    "assumptions": {"type": "array", "items": {"type": "string"}},
+    "risks": {"type": "array", "items": {"type": "string"}}
+  }
+}

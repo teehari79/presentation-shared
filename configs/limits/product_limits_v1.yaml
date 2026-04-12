@@ -1,11 +1,11 @@
-config_id: product_limits
-version: 1.0.0
-files:
-  max_files_per_session: 10
-  max_file_size_mb: 50
-  max_pages_per_file: 300
+version: v1
+kind: product_limits
 session:
-  max_total_pages: 1000
-  max_regenerations: 20
-parallelism:
-  max_parallel_chunk_summarizers: 12
+  max_source_documents: 20
+  max_total_source_tokens: 700000
+presentation:
+  min_slides: 3
+  max_slides: 60
+  max_title_chars: 140
+qa:
+  max_iterations: 3

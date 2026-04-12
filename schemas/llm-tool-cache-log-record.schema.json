@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/llm-tool-cache-log-record.schema.json",
+  "title": "LLM/Tool/Cache Log Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["record_id", "session_id", "kind", "timestamp"],
+  "properties": {
+    "record_id": {"type": "string", "pattern": "^log_[A-Za-z0-9_-]{8,}$"},
+    "session_id": {"type": "string"},
+    "kind": {"type": "string", "enum": ["llm", "tool", "cache"]},
+    "operation": {"type": "string"},
+    "latency_ms": {"type": "integer", "minimum": 0},
+    "input_tokens": {"type": "integer", "minimum": 0},
+    "output_tokens": {"type": "integer", "minimum": 0},
+    "cache_hit": {"type": "boolean"},
+    "timestamp": {"type": "string", "format": "date-time"}
+  }
+}

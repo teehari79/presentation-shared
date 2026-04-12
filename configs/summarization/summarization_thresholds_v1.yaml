@@ -1,0 +1,12 @@
+version: v1
+kind: summarization_thresholds
+chunk_level:
+  target_words: 180
+  min_words: 80
+  max_words: 260
+  min_confidence: 0.65
+document_level:
+  target_words: 700
+  min_words: 350
+  max_words: 1200
+  min_coverage_ratio: 0.85

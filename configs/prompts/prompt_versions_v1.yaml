@@ -1,0 +1,15 @@
+version: v1
+kind: prompt_versions
+prompts:
+  understanding:
+    active: understanding_v1
+  chunk_summarization:
+    active: chunk_summarization_v1
+  consolidation:
+    active: consolidation_v1
+  clarification_generation:
+    active: clarification_generation_v1
+  outline_generation:
+    active: outline_generation_v1
+  deck_spec_generation:
+    active: deck_spec_generation_v1

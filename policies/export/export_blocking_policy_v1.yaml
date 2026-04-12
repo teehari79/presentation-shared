@@ -1,0 +1,11 @@
+version: v1
+kind: export_blocking_policy
+block_if:
+  safety_decision_in: [block]
+  unresolved_critical_qa_issues: true
+review_if:
+  safety_decision_in: [review]
+  unresolved_warning_qa_issues: true
+allow_if:
+  safety_decision_in: [allow]
+  unresolved_critical_qa_issues: false

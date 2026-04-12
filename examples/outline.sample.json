@@ -1,0 +1,18 @@
+{
+  "session_id": "sess_abc12345",
+  "title": "Q3 Growth Strategy",
+  "sections": [
+    {
+      "section_id": "sec_1",
+      "heading": "Context and Ambition",
+      "slide_count": 2,
+      "bullets": ["Market context", "Target outcomes"]
+    },
+    {
+      "section_id": "sec_2",
+      "heading": "Strategic Initiatives",
+      "slide_count": 4,
+      "bullets": ["Initiative portfolio", "Prioritization logic"]
+    }
+  ]
+}

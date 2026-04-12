@@ -1,0 +1,7 @@
+version: v1
+icon_map:
+  cloud: cloud
+  database: database
+  security: shield
+  analytics: chart-bar
+  user: user

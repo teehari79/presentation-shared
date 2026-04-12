@@ -1,0 +1,10 @@
+{
+  "session_id": "sess_abc12345",
+  "tenant_id": "tenant_demo",
+  "user_id": "user_42",
+  "locale": "en-US",
+  "status": "understanding",
+  "created_at": "2026-04-12T10:00:00Z",
+  "updated_at": "2026-04-12T10:05:00Z",
+  "metadata": {"workflow": "standard"}
+}

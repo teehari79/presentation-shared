@@ -1,0 +1,8 @@
+version: v1
+object_recipe: comparison
+layout_hint: comparison
+nodes:
+  - option
+  - pros
+  - cons
+  - recommendation

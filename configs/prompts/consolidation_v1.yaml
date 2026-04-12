@@ -1,0 +1,5 @@
+version: v1
+prompt_id: consolidation_v1
+stage: summarization
+system_template: prompts/summarization/consolidation_system_v1.md
+user_template: prompts/summarization/consolidation_user_v1.md
