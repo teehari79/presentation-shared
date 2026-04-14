@@ -55,6 +55,9 @@ Run lightweight validations:
 ```bash
 ./scripts/validate-schemas.sh
 ./scripts/validate-configs.sh
+./scripts/validate-versions.sh
 ```
 
-These checks parse JSON/YAML and validate fixture payloads against the matching schemas.
+These checks parse JSON schemas, validate YAML structure, validate fixture payloads against matching schemas, and verify changelog/version consistency.
+
+CI runs the same checks in `.github/workflows/validation.yml` for every pull request and push to `main`.
