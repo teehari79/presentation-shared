@@ -6,7 +6,8 @@ import json
 from pathlib import Path
 
 root = Path('.')
-for path in sorted((root / 'schemas').glob('*.json')):
+schema_paths = sorted((root / 'schemas').glob('*.json')) + sorted((root / 'redteam' / 'schemas').glob('*.json'))
+for path in schema_paths:
     with path.open('r', encoding='utf-8') as f:
         json.load(f)
     print(f'valid json: {path}')

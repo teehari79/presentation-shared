@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/redteam/evaluation-result-record_v1.schema.json",
+  "title": "EvaluationResultRecordV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "result_id",
+    "suite_version",
+    "case_id",
+    "run_timestamp_utc",
+    "target_component",
+    "target_stage",
+    "outcome",
+    "scores",
+    "notes"
+  ],
+  "properties": {
+    "result_id": { "type": "string", "minLength": 8 },
+    "suite_version": { "type": "string", "pattern": "^v[0-9]+$" },
+    "case_id": { "type": "string", "pattern": "^RT-[0-9]{3}$" },
+    "run_timestamp_utc": { "type": "string", "minLength": 20 },
+    "target_component": {
+      "type": "string",
+      "enum": ["orchestrator", "renderer", "end_to_end"]
+    },
+    "target_stage": { "type": "string", "minLength": 3 },
+    "outcome": {
+      "type": "string",
+      "enum": ["pass", "fail", "partial"]
+    },
+    "scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attack_success",
+        "data_leakage",
+        "policy_bypass",
+        "factual_unsupported_output",
+        "unsafe_renderer_acceptance",
+        "workflow_integrity_failure"
+      ],
+      "properties": {
+        "attack_success": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "data_leakage": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "policy_bypass": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "factual_unsupported_output": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "unsafe_renderer_acceptance": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "workflow_integrity_failure": { "type": "integer", "minimum": 0, "maximum": 10 }
+      }
+    },
+    "notes": { "type": "string", "minLength": 3 }
+  }
+}

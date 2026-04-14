@@ -8,3 +8,4 @@ This repository contains shared schemas, configs, policies, prompts, and design 
 - Keep schemas stable and backward compatible unless intentionally changed.
 - Do not add environment-specific values here.
 - Validate YAML and schema examples when making changes.
+- Version red-team datasets/rubrics/cases explicitly and keep them provider-agnostic.
