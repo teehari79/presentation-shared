@@ -8,6 +8,7 @@ Production-oriented shared backbone for the Presentation AI platform. This repos
 - Design graph metadata for themes/layouts/object recipes
 - Prompt templates and prompt metadata bindings
 - Example payload fixtures used for validation and integration tests
+- Red-team adversarial evaluation cases, rubrics, and taxonomy fixtures
 
 ## Versioning policy
 
@@ -45,6 +46,7 @@ The renderer should:
 - `design-graph/`: Themes, layouts, icon maps, object recipes, and sample slides.
 - `prompts/`: Prompt template text files (system/user).
 - `examples/`: Example JSON fixtures for schema validation.
+- `redteam/`: Shared adversarial cases, scoring rubrics, schemas, and fixtures.
 - `scripts/`: Validation scripts for schemas/configs/fixtures.
 - `tests/`: Lightweight validation checks.
 
@@ -56,6 +58,7 @@ Run lightweight validations:
 ./scripts/validate-schemas.sh
 ./scripts/validate-configs.sh
 ./scripts/validate-versions.sh
+./scripts/validate-redteam.sh
 ```
 
 These checks parse JSON schemas, validate YAML structure, validate fixture payloads against matching schemas, and verify changelog/version consistency.

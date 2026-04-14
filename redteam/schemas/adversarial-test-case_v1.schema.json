@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/redteam/adversarial-test-case_v1.schema.json",
+  "title": "AdversarialTestCaseV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "category",
+    "threat_description",
+    "input_type",
+    "target_workflow_stage",
+    "attack_payload",
+    "expected_safe_behavior",
+    "severity",
+    "recommended_mitigation_tags"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^RT-[0-9]{3}$"
+    },
+    "title": { "type": "string", "minLength": 5 },
+    "category": {
+      "type": "string",
+      "enum": [
+        "prompt_injection",
+        "indirect_prompt_injection_uploaded_document",
+        "system_prompt_extraction_attempt",
+        "sensitive_information_disclosure",
+        "cross_tenant_leakage_attempt",
+        "schema_evasion_malformed_structured_output",
+        "unsafe_renderer_payload",
+        "hallucinated_claims_unsupported_assertions",
+        "denial_of_wallet_token_inflation",
+        "hitl_approval_bypass_attempt"
+      ]
+    },
+    "threat_description": { "type": "string", "minLength": 10 },
+    "input_type": {
+      "type": "string",
+      "enum": [
+        "user_prompt",
+        "uploaded_document_text",
+        "metadata",
+        "mixed"
+      ]
+    },
+    "target_workflow_stage": {
+      "type": "string",
+      "enum": [
+        "ingestion",
+        "understanding",
+        "outline_generation",
+        "deck_spec_generation",
+        "renderer_preflight",
+        "rendering",
+        "export",
+        "hitl_approval"
+      ]
+    },
+    "attack_payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prompt"],
+      "properties": {
+        "prompt": { "type": "string", "minLength": 5 },
+        "uploaded_document_excerpt": { "type": "string", "minLength": 5 },
+        "metadata_payload": { "type": "string", "minLength": 5 }
+      }
+    },
+    "expected_safe_behavior": {
+      "$ref": "expected-outcome_v1.schema.json"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"]
+    },
+    "recommended_mitigation_tags": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 3 }
+    }
+  }
+}

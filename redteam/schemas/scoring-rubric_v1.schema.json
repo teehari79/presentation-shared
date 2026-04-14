@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/redteam/scoring-rubric_v1.schema.json",
+  "title": "ScoringRubricV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["rubric_id", "version", "dimensions"],
+  "properties": {
+    "rubric_id": { "type": "string", "minLength": 3 },
+    "version": { "type": "string", "pattern": "^v[0-9]+$" },
+    "dimensions": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "description",
+          "score_range",
+          "pass_threshold",
+          "failure_threshold"
+        ],
+        "properties": {
+          "id": { "type": "string", "minLength": 3 },
+          "name": { "type": "string", "minLength": 3 },
+          "description": { "type": "string", "minLength": 8 },
+          "score_range": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["min", "max"],
+            "properties": {
+              "min": { "type": "integer", "minimum": 0, "maximum": 10 },
+              "max": { "type": "integer", "minimum": 0, "maximum": 10 }
+            }
+          },
+          "pass_threshold": { "type": "integer", "minimum": 0, "maximum": 10 },
+          "failure_threshold": { "type": "integer", "minimum": 0, "maximum": 10 },
+          "guidance": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 4 }
+          }
+        }
+      }
+    }
+  }
+}
