@@ -1,0 +1,38 @@
+version: v1
+kind: task_slot_routing
+task_slots:
+  reasoning_primary:
+    description: Highest-quality reasoning and generation slot.
+    preferred_models: [openai/gpt-5.1, vertex_ai/gemini-2.5-pro, azure_foundry/premium-general-v1]
+  reasoning_fast:
+    description: Lower-latency reasoning slot for iterative workflows.
+    preferred_models: [openai/gpt-5-mini, vertex_ai/gemini-2.5-flash, groq/llama-3.3-70b-versatile]
+  classification_small:
+    description: Cost-efficient classification slot.
+    preferred_models: [openai/gpt-5-mini, azure_foundry/fast-general-v1, groq/llama-3.3-70b-versatile]
+  formatting_small:
+    description: Small-model formatting and normalization slot.
+    preferred_models: [openai/gpt-5-mini, hugging_face/mistralai/Mistral-7B-Instruct-v0.3, azure_foundry/fast-general-v1]
+  embedding_primary:
+    description: Embedding generation slot.
+    preferred_models: [openai/text-embedding-3-large, hugging_face/sentence-transformers/all-MiniLM-L6-v2]
+  reranker_primary:
+    description: Reranker slot for retrieved context ranking.
+    preferred_models: [hugging_face/cross-encoder/ms-marco-MiniLM-L-6-v2, vertex_ai/gemini-2.5-flash]
+  safety_classifier:
+    description: Safety classification slot.
+    preferred_models: [openai/gpt-5-mini, azure_foundry/fast-general-v1, groq/llama-3.3-70b-versatile]
+  grounding_validator:
+    description: Grounding and citation validation slot.
+    preferred_models: [openai/gpt-5.1, vertex_ai/gemini-2.5-pro]
+workflow_task_routes:
+  understanding.generation: reasoning_primary
+  clarification.generation: reasoning_fast
+  outline.generation: reasoning_primary
+  deck_spec.generation: reasoning_primary
+  sufficiency.classification: classification_small
+  formatting.normalization: formatting_small
+  retrieval.embeddings: embedding_primary
+  retrieval.retrieve-rerank: reranker_primary
+  safety.classification: safety_classifier
+  grounding.validation: grounding_validator

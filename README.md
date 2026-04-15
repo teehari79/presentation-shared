@@ -38,6 +38,19 @@ The renderer should:
 3. Apply export policies from `policies/export/` before generating deliverables.
 4. Emit QA/safety evidence records that can be validated by shared schemas.
 
+
+## Shared model-provider control plane
+
+The `configs/models/` directory is the shared control plane for model-provider abstraction and routing.
+
+- `providers_v1.yaml`: provider abstraction definitions (OpenAI, Vertex AI, Azure Foundry, Hugging Face, Groq).
+- `catalog_v1.yaml`: versioned model catalog entries, task tags, capability metadata, environment allowlists, fallback candidates, and deprecation status.
+- `routing_v1.yaml`: named task slots and workflow task-to-slot mapping so application logic does not hardcode model IDs.
+- `fallbacks_v1.yaml`: ordered fallback chains, retry/timeout policy, fail-open vs fail-closed behavior, and structured-output revalidation flags.
+- `policy_v1.yaml`: global guardrails that enforce environment-agnostic and versioned model-routing behavior.
+
+Validation coverage for this control plane is provided by `tests/validate_model_routing.py`, which checks both schema conformance and cross-file reference integrity.
+
 ## Key directories
 
 - `schemas/`: Draft 2020-12 JSON schemas for workflow artifacts.

@@ -1,0 +1,24 @@
+version: v1
+kind: model_routing_policy
+policy:
+  source_of_truth: presentation-shared/configs/models
+  environment_agnostic: true
+  dynamic_model_swap: true
+  prohibit_live_endpoints: true
+  prohibit_secrets: true
+  enforce_versioned_configs: true
+  required_task_slots:
+    - reasoning_primary
+    - reasoning_fast
+    - classification_small
+    - formatting_small
+    - embedding_primary
+    - reranker_primary
+    - safety_classifier
+    - grounding_validator
+  required_provider_abstractions:
+    - openai
+    - vertex_ai
+    - azure_foundry
+    - hugging_face
+    - groq

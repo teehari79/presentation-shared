@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Model Catalog v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "kind", "environment_allowlists", "models"],
+  "properties": {
+    "version": { "type": "string", "enum": ["v1"] },
+    "kind": { "type": "string", "enum": ["model_catalog"] },
+    "environment_allowlists": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "models": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "provider",
+          "model_id",
+          "label",
+          "task_tags",
+          "capabilities",
+          "environment_allowlist",
+          "fallback_candidates",
+          "deprecation"
+        ],
+        "properties": {
+          "provider": { "type": "string", "minLength": 1 },
+          "model_id": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 1 },
+          "task_tags": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "capabilities": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "structured_output",
+              "tool_use",
+              "vision",
+              "long_context",
+              "cost_class",
+              "latency_class",
+              "reliability_tier"
+            ],
+            "properties": {
+              "structured_output": { "type": "boolean" },
+              "tool_use": { "type": "boolean" },
+              "vision": { "type": "boolean" },
+              "long_context": { "type": "boolean" },
+              "cost_class": { "type": "string", "enum": ["economy", "standard", "premium"] },
+              "latency_class": { "type": "string", "enum": ["very_fast", "fast", "medium", "slow"] },
+              "reliability_tier": { "type": "string", "enum": ["tier_1", "tier_2", "tier_3"] }
+            }
+          },
+          "environment_allowlist": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "fallback_candidates": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "deprecation": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["status", "replacement"],
+            "properties": {
+              "status": { "type": "string", "enum": ["active", "deprecated", "retired"] },
+              "replacement": { "type": ["string", "null"] }
+            }
+          }
+        }
+      }
+    }
+  }
+}
