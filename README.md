@@ -47,6 +47,7 @@ The renderer should:
 - `prompts/`: Prompt template text files (system/user).
 - `examples/`: Example JSON fixtures for schema validation.
 - `redteam/`: Shared adversarial cases, scoring rubrics, schemas, and fixtures.
+- `docs/`: Practical red-team, operator, incident-response, and rollout playbooks.
 - `scripts/`: Validation scripts for schemas/configs/fixtures.
 - `tests/`: Lightweight validation checks.
 
@@ -91,3 +92,14 @@ Run lightweight validations:
 These checks parse JSON schemas, validate YAML structure, validate fixture payloads against matching schemas, and verify changelog/version consistency.
 
 CI runs the same checks in `.github/workflows/validation.yml` for every pull request and push to `main`.
+
+
+## Safety/operator playbooks
+
+Practical runbooks are versioned under `docs/`:
+
+- `docs/redteam_playbook_v1.md`
+- `docs/orchestrator_safety_ops_playbook_v1.md`
+- `docs/renderer_safety_ops_playbook_v1.md`
+- `docs/incident_response_playbook_v1.md`
+- `docs/safe_rollout_guidance_v1.md`
