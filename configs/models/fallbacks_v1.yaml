@@ -1,0 +1,75 @@
+version: v1
+kind: model_fallback_policy
+defaults:
+  retry_count: 2
+  request_timeout_ms: 30000
+  fail_mode: fail_closed
+  revalidate_structured_output: true
+
+slot_policies:
+  reasoning_primary:
+    retry_count: 2
+    request_timeout_ms: 45000
+    fail_mode: fail_closed
+    fallback_chain: [openai/gpt-5.1, vertex_ai/gemini-2.5-pro, azure_foundry/premium-general-v1]
+    revalidate_structured_output: true
+  reasoning_fast:
+    retry_count: 2
+    request_timeout_ms: 25000
+    fail_mode: fail_open
+    fallback_chain: [openai/gpt-5-mini, vertex_ai/gemini-2.5-flash, groq/llama-3.3-70b-versatile]
+    revalidate_structured_output: true
+  classification_small:
+    retry_count: 1
+    request_timeout_ms: 12000
+    fail_mode: fail_open
+    fallback_chain: [openai/gpt-5-mini, azure_foundry/fast-general-v1, groq/llama-3.3-70b-versatile]
+    revalidate_structured_output: true
+  formatting_small:
+    retry_count: 1
+    request_timeout_ms: 15000
+    fail_mode: fail_open
+    fallback_chain: [openai/gpt-5-mini, azure_foundry/fast-general-v1, hugging_face/mistralai/Mistral-7B-Instruct-v0.3]
+    revalidate_structured_output: true
+  embedding_primary:
+    retry_count: 1
+    request_timeout_ms: 8000
+    fail_mode: fail_closed
+    fallback_chain: [openai/text-embedding-3-large, hugging_face/sentence-transformers/all-MiniLM-L6-v2]
+    revalidate_structured_output: false
+  reranker_primary:
+    retry_count: 1
+    request_timeout_ms: 10000
+    fail_mode: fail_closed
+    fallback_chain: [hugging_face/cross-encoder/ms-marco-MiniLM-L-6-v2, vertex_ai/gemini-2.5-flash]
+    revalidate_structured_output: false
+  safety_classifier:
+    retry_count: 2
+    request_timeout_ms: 12000
+    fail_mode: fail_closed
+    fallback_chain: [openai/gpt-5-mini, azure_foundry/fast-general-v1, groq/llama-3.3-70b-versatile]
+    revalidate_structured_output: true
+  grounding_validator:
+    retry_count: 2
+    request_timeout_ms: 20000
+    fail_mode: fail_closed
+    fallback_chain: [openai/gpt-5.1, vertex_ai/gemini-2.5-pro]
+    revalidate_structured_output: true
+
+task_overrides:
+  understanding.generation:
+    fail_mode: fail_closed
+  clarification.generation:
+    fail_mode: fail_open
+  outline.generation:
+    fail_mode: fail_closed
+  deck_spec.generation:
+    fail_mode: fail_closed
+  sufficiency.classification:
+    fail_mode: fail_open
+  formatting.normalization:
+    fail_mode: fail_open
+  retrieval.embeddings:
+    fail_mode: fail_closed
+  retrieval.retrieve-rerank:
+    fail_mode: fail_closed

@@ -1,0 +1,194 @@
+version: v1
+kind: model_catalog
+environment_allowlists:
+  - production
+  - staging
+  - development
+models:
+  - provider: openai
+    model_id: gpt-5.1
+    label: OpenAI GPT-5.1 Flagship
+    task_tags: [reasoning, generation, grounding]
+    capabilities:
+      structured_output: true
+      tool_use: true
+      vision: true
+      long_context: true
+      cost_class: premium
+      latency_class: medium
+      reliability_tier: tier_1
+    environment_allowlist: [production, staging, development]
+    fallback_candidates: [openai/gpt-5-mini, vertex_ai/gemini-2.5-pro]
+    deprecation:
+      status: active
+      replacement: null
+  - provider: openai
+    model_id: gpt-5-mini
+    label: OpenAI GPT-5 Mini
+    task_tags: [reasoning, classification, formatting]
+    capabilities:
+      structured_output: true
+      tool_use: true
+      vision: false
+      long_context: true
+      cost_class: standard
+      latency_class: fast
+      reliability_tier: tier_1
+    environment_allowlist: [production, staging, development]
+    fallback_candidates: [openai/gpt-5.1, groq/llama-3.3-70b-versatile]
+    deprecation:
+      status: active
+      replacement: null
+  - provider: vertex_ai
+    model_id: gemini-2.5-pro
+    label: Vertex Gemini 2.5 Pro
+    task_tags: [reasoning, generation, grounding]
+    capabilities:
+      structured_output: true
+      tool_use: true
+      vision: true
+      long_context: true
+      cost_class: premium
+      latency_class: medium
+      reliability_tier: tier_1
+    environment_allowlist: [production, staging, development]
+    fallback_candidates: [vertex_ai/gemini-2.5-flash, openai/gpt-5.1]
+    deprecation:
+      status: active
+      replacement: null
+  - provider: vertex_ai
+    model_id: gemini-2.5-flash
+    label: Vertex Gemini 2.5 Flash
+    task_tags: [reasoning, classification, formatting]
+    capabilities:
+      structured_output: true
+      tool_use: true
+      vision: true
+      long_context: true
+      cost_class: standard
+      latency_class: fast
+      reliability_tier: tier_2
+    environment_allowlist: [production, staging, development]
+    fallback_candidates: [vertex_ai/gemini-2.5-pro, openai/gpt-5-mini]
+    deprecation:
+      status: active
+      replacement: null
+  - provider: azure_foundry
+    model_id: premium-general-v1
+    label: Azure Foundry Premium General
+    task_tags: [reasoning, generation]
+    capabilities:
+      structured_output: true
+      tool_use: true
+      vision: true
+      long_context: true
+      cost_class: premium
+      latency_class: medium
+      reliability_tier: tier_1
+    environment_allowlist: [production, staging]
+    fallback_candidates: [azure_foundry/fast-general-v1, openai/gpt-5.1]
+    deprecation:
+      status: active
+      replacement: null
+  - provider: azure_foundry
+    model_id: fast-general-v1
+    label: Azure Foundry Fast General
+    task_tags: [reasoning, classification, formatting]
+    capabilities:
+      structured_output: true
+      tool_use: true
+      vision: false
+      long_context: true
+      cost_class: economy
+      latency_class: very_fast
+      reliability_tier: tier_2
+    environment_allowlist: [production, staging, development]
+    fallback_candidates: [azure_foundry/premium-general-v1, groq/llama-3.3-70b-versatile]
+    deprecation:
+      status: active
+      replacement: null
+  - provider: hugging_face
+    model_id: sentence-transformers/all-MiniLM-L6-v2
+    label: Hugging Face MiniLM Embedding
+    task_tags: [embedding, retrieval]
+    capabilities:
+      structured_output: false
+      tool_use: false
+      vision: false
+      long_context: false
+      cost_class: economy
+      latency_class: fast
+      reliability_tier: tier_2
+    environment_allowlist: [production, staging, development]
+    fallback_candidates: [openai/text-embedding-3-large]
+    deprecation:
+      status: active
+      replacement: null
+  - provider: hugging_face
+    model_id: cross-encoder/ms-marco-MiniLM-L-6-v2
+    label: Hugging Face MiniLM Reranker
+    task_tags: [reranker, retrieval]
+    capabilities:
+      structured_output: false
+      tool_use: false
+      vision: false
+      long_context: false
+      cost_class: economy
+      latency_class: fast
+      reliability_tier: tier_2
+    environment_allowlist: [production, staging, development]
+    fallback_candidates: [vertex_ai/gemini-2.5-flash]
+    deprecation:
+      status: active
+      replacement: null
+  - provider: hugging_face
+    model_id: mistralai/Mistral-7B-Instruct-v0.3
+    label: Hugging Face Mistral Formatting
+    task_tags: [formatting, normalization]
+    capabilities:
+      structured_output: false
+      tool_use: false
+      vision: false
+      long_context: false
+      cost_class: economy
+      latency_class: medium
+      reliability_tier: tier_3
+    environment_allowlist: [staging, development]
+    fallback_candidates: [openai/gpt-5-mini, azure_foundry/fast-general-v1]
+    deprecation:
+      status: active
+      replacement: null
+  - provider: groq
+    model_id: llama-3.3-70b-versatile
+    label: Groq Llama 3.3 70B Versatile
+    task_tags: [reasoning_fast, classification, formatting]
+    capabilities:
+      structured_output: false
+      tool_use: true
+      vision: false
+      long_context: false
+      cost_class: economy
+      latency_class: very_fast
+      reliability_tier: tier_2
+    environment_allowlist: [production, staging, development]
+    fallback_candidates: [openai/gpt-5-mini, vertex_ai/gemini-2.5-flash]
+    deprecation:
+      status: active
+      replacement: null
+  - provider: openai
+    model_id: text-embedding-3-large
+    label: OpenAI Text Embedding 3 Large
+    task_tags: [embedding, retrieval]
+    capabilities:
+      structured_output: false
+      tool_use: false
+      vision: false
+      long_context: false
+      cost_class: standard
+      latency_class: fast
+      reliability_tier: tier_1
+    environment_allowlist: [production, staging, development]
+    fallback_candidates: [hugging_face/sentence-transformers/all-MiniLM-L6-v2]
+    deprecation:
+      status: active
+      replacement: null
