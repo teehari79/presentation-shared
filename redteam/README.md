@@ -47,3 +47,13 @@ This directory is the source of truth for adversarial evaluation assets used by 
 ```
 
 The validator checks YAML/JSON parsing and schema conformance for cases, taxonomy, rubrics, fixtures, and sample evaluation records.
+
+## CI gating strategy
+
+The shared CI pipeline uses two adversarial tiers:
+
+- **PR smoke tier**: runs `tests/adversarial_regression.py --target orchestrator-smoke` and `--target renderer` to keep pull requests fast while enforcing core orchestrator and renderer safety controls.
+- **Full tier (nightly + protected branches)**: runs `--target orchestrator-full` and `--target renderer` for broader regression coverage.
+
+Shared validation also runs `--target shared` to verify red-team case definitions, datasets, and rubrics are present and complete. Failures are surfaced with explicit categories (`schema`, `policy`, `authorization`, `renderer safety`, `adversarial regression`) and exported as JSON/JUnit/Markdown artifacts for trend analysis.
+

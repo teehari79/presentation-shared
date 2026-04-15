@@ -5,10 +5,66 @@ on:
   push:
     branches:
       - main
+      - release/**
+  schedule:
+    - cron: '20 4 * * *'
 
 jobs:
-  validate:
+  unit-tests:
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run unit test gate
+        run: |
+          python3 scripts/ci/run_checks.py \
+            --gate unit-tests \
+            --report-dir artifacts \
+            --check "version-validation::unit test::python3 tests/validate_versions.py"
+
+      - name: Upload unit test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-tests-reports
+          path: artifacts/unit-tests.*
+
+  integration-tests:
+    runs-on: ubuntu-latest
+    needs: [unit-tests]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integration gate
+        run: |
+          python3 scripts/ci/run_checks.py \
+            --gate integration-tests \
+            --report-dir artifacts \
+            --check "fixture-schema-integration::normal unit test::python3 tests/validate_fixtures.py" \
+            --check "redteam-contract-integration::adversarial regression::python3 tests/validate_redteam.py"
+
+      - name: Upload integration artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-tests-reports
+          path: artifacts/integration-tests.*
+
+  shared-schema-config-validation:
+    runs-on: ubuntu-latest
+    needs: [unit-tests]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,11 +79,131 @@ jobs:
         with:
           ruby-version: '3.3'
 
-      - name: Validate JSON schemas and examples
-        run: ./scripts/validate-schemas.sh
+      - name: Run shared validation gate
+        run: |
+          python3 scripts/ci/run_checks.py \
+            --gate shared-schema-config-validation \
+            --report-dir artifacts \
+            --check "json-schema-validation::schema::./scripts/validate-schemas.sh" \
+            --check "yaml-config-validation::schema::./scripts/validate-configs.sh" \
+            --check "redteam-shared-validation::schema::python3 tests/adversarial_regression.py --target shared --json-out artifacts/shared-redteam-evaluation.json"
 
-      - name: Validate YAML structure
-        run: ./scripts/validate-configs.sh
+      - name: Upload shared validation artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shared-validation-reports
+          path: |
+            artifacts/shared-schema-config-validation.*
+            artifacts/shared-redteam-evaluation.json
 
-      - name: Validate changelog/version consistency
-        run: ./scripts/validate-versions.sh
+  lint-type-checks:
+    runs-on: ubuntu-latest
+    needs: [unit-tests]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run lint/type gate
+        run: |
+          python3 scripts/ci/run_checks.py \
+            --gate lint-type-checks \
+            --report-dir artifacts \
+            --check "python-compile-check::normal unit test::python3 -m py_compile tests/*.py scripts/ci/*.py" \
+            --check "shell-syntax-check::normal unit test::bash -n scripts/*.sh"
+
+      - name: Upload lint/type artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-type-reports
+          path: artifacts/lint-type-checks.*
+
+  build-verification:
+    runs-on: ubuntu-latest
+    needs: [integration-tests, shared-schema-config-validation]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run build verification gate
+        run: |
+          python3 scripts/ci/run_checks.py \
+            --gate build-verification \
+            --report-dir artifacts \
+            --check "git-archive-build::normal unit test::git archive --format=tar HEAD > /tmp/presentation-shared.tar" \
+            --check "version-consistency::schema::./scripts/validate-versions.sh"
+
+      - name: Upload build verification artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-verification-reports
+          path: artifacts/build-verification.*
+
+  adversarial-smoke:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    needs: [shared-schema-config-validation]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run adversarial smoke gate
+        run: |
+          python3 scripts/ci/run_checks.py \
+            --gate adversarial-smoke \
+            --report-dir artifacts \
+            --check "orchestrator-redteam-smoke::adversarial regression::python3 tests/adversarial_regression.py --target orchestrator-smoke --json-out artifacts/orchestrator-smoke-eval.json" \
+            --check "renderer-unsafe-payload::renderer safety::python3 tests/adversarial_regression.py --target renderer --json-out artifacts/renderer-smoke-eval.json"
+
+      - name: Upload adversarial smoke artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adversarial-smoke-reports
+          path: |
+            artifacts/adversarial-smoke.*
+            artifacts/orchestrator-smoke-eval.json
+            artifacts/renderer-smoke-eval.json
+
+  adversarial-full:
+    if: github.event_name == 'schedule' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')
+    runs-on: ubuntu-latest
+    needs: [shared-schema-config-validation]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run adversarial full gate
+        run: |
+          python3 scripts/ci/run_checks.py \
+            --gate adversarial-full \
+            --report-dir artifacts \
+            --check "orchestrator-redteam-full::adversarial regression::python3 tests/adversarial_regression.py --target orchestrator-full --json-out artifacts/orchestrator-full-eval.json" \
+            --check "renderer-redteam-full::renderer safety::python3 tests/adversarial_regression.py --target renderer --json-out artifacts/renderer-full-eval.json"
+
+      - name: Upload adversarial full artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adversarial-full-reports
+          path: |
+            artifacts/adversarial-full.*
+            artifacts/orchestrator-full-eval.json
+            artifacts/renderer-full-eval.json
