@@ -50,6 +50,33 @@ The renderer should:
 - `scripts/`: Validation scripts for schemas/configs/fixtures.
 - `tests/`: Lightweight validation checks.
 
+## CI quality gates
+
+The GitHub Actions workflow (`.github/workflows/validation.yml`) now enforces staged quality gates with machine-readable artifacts for every job:
+
+- `unit-tests`: baseline unit validations.
+- `integration-tests`: fixture + red-team contract integration checks.
+- `shared-schema-config-validation`: schema/config parsing and shared red-team definition validation.
+- `lint-type-checks`: Python compile checks + shell syntax checks.
+- `build-verification`: archive/buildability and version consistency checks.
+- `adversarial-smoke` (PR only): orchestrator smoke subset + renderer safety checks.
+- `adversarial-full` (scheduled + `main`/`release/*`): broader orchestrator and renderer adversarial regressions.
+
+Each gate uploads:
+
+- JUnit XML report (`*.junit.xml`)
+- JSON report (`*.report.json` plus red-team evaluation JSON)
+- Markdown summary (`*.summary.md`)
+
+Failure output is categorized to make triage clear:
+
+- `schema`
+- `policy`
+- `adversarial regression`
+- `authorization`
+- `renderer safety`
+- `normal unit test`
+
 ## Validation
 
 Run lightweight validations:
