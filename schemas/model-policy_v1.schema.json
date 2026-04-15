@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Model Routing Policy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "kind", "policy"],
+  "properties": {
+    "version": { "type": "string", "enum": ["v1"] },
+    "kind": { "type": "string", "enum": ["model_routing_policy"] },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_of_truth",
+        "environment_agnostic",
+        "dynamic_model_swap",
+        "prohibit_live_endpoints",
+        "prohibit_secrets",
+        "enforce_versioned_configs",
+        "required_task_slots",
+        "required_provider_abstractions"
+      ],
+      "properties": {
+        "source_of_truth": { "type": "string", "minLength": 1 },
+        "environment_agnostic": { "type": "boolean" },
+        "dynamic_model_swap": { "type": "boolean" },
+        "prohibit_live_endpoints": { "type": "boolean" },
+        "prohibit_secrets": { "type": "boolean" },
+        "enforce_versioned_configs": { "type": "boolean" },
+        "required_task_slots": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "required_provider_abstractions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Providers Config v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "kind", "providers"],
+  "properties": {
+    "version": { "type": "string", "enum": ["v1"] },
+    "kind": { "type": "string", "enum": ["model_providers"] },
+    "providers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "label",
+          "type",
+          "supports_structured_outputs",
+          "supports_tool_use",
+          "supports_vision",
+          "supports_long_context",
+          "status"
+        ],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 1 },
+          "type": { "type": "string", "enum": ["api", "hosted", "self_hosted"] },
+          "supports_structured_outputs": { "type": "boolean" },
+          "supports_tool_use": { "type": "boolean" },
+          "supports_vision": { "type": "boolean" },
+          "supports_long_context": { "type": "boolean" },
+          "status": { "type": "string", "enum": ["active", "preview", "deprecated"] }
+        }
+      }
+    }
+  }
+}

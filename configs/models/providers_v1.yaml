@@ -1,0 +1,43 @@
+version: v1
+kind: model_providers
+providers:
+  - name: openai
+    label: OpenAI
+    type: api
+    supports_structured_outputs: true
+    supports_tool_use: true
+    supports_vision: true
+    supports_long_context: true
+    status: active
+  - name: vertex_ai
+    label: Vertex AI
+    type: api
+    supports_structured_outputs: true
+    supports_tool_use: true
+    supports_vision: true
+    supports_long_context: true
+    status: active
+  - name: azure_foundry
+    label: Azure Foundry
+    type: api
+    supports_structured_outputs: true
+    supports_tool_use: true
+    supports_vision: true
+    supports_long_context: true
+    status: active
+  - name: hugging_face
+    label: Hugging Face
+    type: hosted
+    supports_structured_outputs: false
+    supports_tool_use: false
+    supports_vision: false
+    supports_long_context: false
+    status: active
+  - name: groq
+    label: Groq
+    type: api
+    supports_structured_outputs: false
+    supports_tool_use: true
+    supports_vision: false
+    supports_long_context: false
+    status: active
