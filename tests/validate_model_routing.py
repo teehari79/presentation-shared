@@ -113,10 +113,15 @@ def validate_cross_config_consistency() -> None:
     providers = load_yaml(ROOT / "configs/models/providers_v1.yaml")
     catalog = load_yaml(ROOT / "configs/models/catalog_v1.yaml")
     routing = load_yaml(ROOT / "configs/models/routing_v1.yaml")
+    fallbacks = load_yaml(ROOT / "configs/models/fallbacks_v1.yaml")
+    policy = load_yaml(ROOT / "configs/models/policy_v1.yaml")
 
     provider_names = {provider["name"] for provider in providers["providers"]}
     model_refs = {f"{model['provider']}/{model['model_id']}" for model in catalog["models"]}
     slot_names = set(routing["task_slots"].keys())
+    fallback_slot_names = set(fallbacks["slot_policies"].keys())
+    policy_required_slots = set(policy["policy"]["required_task_slots"])
+    policy_required_providers = set(policy["policy"]["required_provider_abstractions"])
 
     for model in catalog["models"]:
         if model["provider"] not in provider_names:
@@ -133,6 +138,33 @@ def validate_cross_config_consistency() -> None:
     for route, slot in routing["workflow_task_routes"].items():
         if slot not in slot_names:
             raise ValueError(f"route {route} references unknown slot: {slot}")
+
+    for slot_name in fallback_slot_names:
+        if slot_name not in slot_names:
+            raise ValueError(f"fallbacks slot_policies references unknown slot: {slot_name}")
+
+    missing_fallback_slots = slot_names - fallback_slot_names
+    if missing_fallback_slots:
+        raise ValueError(
+            f"fallbacks slot_policies missing routing slots: {sorted(missing_fallback_slots)}"
+        )
+
+    for slot_name, slot_policy in fallbacks["slot_policies"].items():
+        for fallback_model in slot_policy["fallback_chain"]:
+            if fallback_model not in model_refs:
+                raise ValueError(
+                    f"fallback chain for slot {slot_name} references unknown model: {fallback_model}"
+                )
+
+    for required_slot in policy_required_slots:
+        if required_slot not in slot_names:
+            raise ValueError(f"policy required_task_slots references unknown slot: {required_slot}")
+
+    for required_provider in policy_required_providers:
+        if required_provider not in provider_names:
+            raise ValueError(
+                f"policy required_provider_abstractions references unknown provider: {required_provider}"
+            )
 
 
 def main() -> int:
