@@ -205,6 +205,16 @@ def validate_model_routing_control_plane() -> None:
     provider_names = {provider["name"] for provider in providers["providers"]}
     allowed_external_providers = {"cohere_managed"}
     model_keys = {entry["key"] for entry in catalog["models"]}
+    model_by_key = {entry["key"]: entry for entry in catalog["models"]}
+    compatible_roles = {
+        "reasoning_primary": {"reasoning_primary", "reasoning_fast"},
+        "reasoning_fast": {"reasoning_primary", "reasoning_fast"},
+    }
+
+    def slot_role_match(slot_name: str, model_key: str) -> bool:
+        roles = set(model_by_key[model_key]["roles"])
+        allowed = compatible_roles.get(slot_name, {slot_name})
+        return bool(roles & allowed)
 
     for entry in catalog["models"]:
         validate(entry, load_json(ROOT / "schemas/model-catalog-entry_v1.schema.json"), path="$.models[]")
@@ -216,6 +226,10 @@ def validate_model_routing_control_plane() -> None:
         for model_key in slot_entry["model_keys"]:
             if model_key not in model_keys:
                 raise ValueError(f"task slot {slot_name} references unknown model key: {model_key}")
+            if not slot_role_match(slot_name, model_key):
+                raise ValueError(
+                    f"task slot {slot_name} references model {model_key} without matching role"
+                )
 
     for task_name, slot_name in routing["workflow_task_routes"].items():
         if slot_name not in routing["task_slots"]:
@@ -240,6 +254,10 @@ def validate_model_routing_control_plane() -> None:
         for model_key in slot_policy["ordered_model_chain"]:
             if model_key not in model_keys:
                 raise ValueError(f"fallback slot {slot_name} references unknown model key: {model_key}")
+            if not slot_role_match(slot_name, model_key):
+                raise ValueError(
+                    f"fallback slot {slot_name} references model {model_key} without matching role"
+                )
 
     missing_fallbacks = set(routing["task_slots"].keys()) - set(fallbacks["slot_policies"].keys())
     if missing_fallbacks:
@@ -258,6 +276,10 @@ def validate_model_routing_control_plane() -> None:
                 if model_key not in model_keys:
                     raise ValueError(
                         f"profile bundle {profile_name} slot {slot_name} references unknown model: {model_key}"
+                    )
+                if not slot_role_match(slot_name, model_key):
+                    raise ValueError(
+                        f"profile bundle {profile_name} slot {slot_name} references model {model_key} without matching role"
                     )
 
     validate(scoring, load_json(ROOT / "schemas/model-routing-scoring_v1.schema.json"), path="$.scoring")

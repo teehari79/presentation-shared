@@ -16,7 +16,7 @@ slot_policies:
     max_attempts: 2
     timeout_ms: 22000
     require_structured_output_validation: true
-    ordered_model_chain: [openai_reasoning_fast, vertex_reasoning_fast, groq_fast_formatting_slot]
+    ordered_model_chain: [openai_reasoning_fast, vertex_reasoning_fast, azure_reasoning_primary]
   classification_small:
     max_attempts: 2
     timeout_ms: 12000

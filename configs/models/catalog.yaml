@@ -16,7 +16,7 @@ models:
     provider: openai
     model_id: gpt-5-mini
     label: OpenAI reasoning fast
-    roles: [reasoning_fast, classification_small]
+    roles: [reasoning_fast, classification_small, formatting_small]
     capabilities: [reasoning, structured_output, classification]
     metadata:
       latency_class: fast
