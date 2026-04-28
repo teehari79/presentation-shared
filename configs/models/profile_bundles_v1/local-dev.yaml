@@ -1,0 +1,10 @@
+version: v1
+kind: model_profile_bundle
+bundle_id: local-dev
+description: Local development profile prioritizing CPU compatibility and offline iteration.
+profiles:
+  classification: hf_small_classification_multilingual
+  formatting_rewrite: hf_small_formatting_lite
+  local_instruction: local_quantized_instruction_7b
+  embedding: hf_embedding_small
+  reranking: hf_reranker_small

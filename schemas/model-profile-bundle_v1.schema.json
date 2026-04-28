@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Model Profile Bundle v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "kind", "bundle_id", "description", "profiles"],
+  "properties": {
+    "version": { "type": "string", "enum": ["v1"] },
+    "kind": { "type": "string", "enum": ["model_profile_bundle"] },
+    "bundle_id": { "type": "string", "minLength": 1 },
+    "description": { "type": "string", "minLength": 1 },
+    "profiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification", "formatting_rewrite", "local_instruction", "embedding", "reranking"],
+      "properties": {
+        "classification": { "type": "string", "minLength": 1 },
+        "formatting_rewrite": { "type": "string", "minLength": 1 },
+        "local_instruction": { "type": "string", "minLength": 1 },
+        "embedding": { "type": "string", "minLength": 1 },
+        "reranking": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}
