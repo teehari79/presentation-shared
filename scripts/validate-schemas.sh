@@ -14,3 +14,5 @@ for path in schema_paths:
 PY
 
 python3 tests/validate_fixtures.py
+
+python3 tests/validate_scoring_framework.py

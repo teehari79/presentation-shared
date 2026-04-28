@@ -1,0 +1,11 @@
+{
+  "version": "v1",
+  "record_id": "regen-001",
+  "session_id": "sess-123",
+  "workflow_stage": "formatting",
+  "artifact_id": "render-output-002",
+  "regenerate_count": 1,
+  "reason": "Align spacing with brand guide.",
+  "requested_by": "user",
+  "requested_at": "2026-04-28T12:20:00Z"
+}

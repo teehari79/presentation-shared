@@ -1,0 +1,14 @@
+{
+  "version": "v1",
+  "record_id": "acc-001",
+  "session_id": "sess-123",
+  "workflow_stage": "deck_spec",
+  "artifact_id": "deckspec-001",
+  "artifact_version": "v3",
+  "artifact_kind": "deck_spec",
+  "decision": "accepted",
+  "decision_reason": "Ready for render.",
+  "blocking": false,
+  "decided_by": "user",
+  "decided_at": "2026-04-28T12:10:00Z"
+}

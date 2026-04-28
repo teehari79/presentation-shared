@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/model-comparison-score-record_v1.schema.json",
+  "title": "Model Comparison Score Record v1",
+  "description": "Normalized scoring output for comparing model runs on the same task/workflow stage.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "record_id",
+    "session_id",
+    "workflow_stage",
+    "candidate_model",
+    "score_components",
+    "composite_score",
+    "measured_at"
+  ],
+  "properties": {
+    "version": {"type": "string", "const": "v1"},
+    "record_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "workflow_stage": {"type": "string", "enum": ["understanding", "outline", "deck_spec", "formatting", "retrieval_reranking", "other"]},
+    "candidate_model": {"type": "string", "minLength": 1},
+    "baseline_model": {"type": "string", "minLength": 1},
+    "score_components": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_validity",
+        "support_grounding_quality",
+        "first_pass_acceptance",
+        "clarification_count",
+        "regenerate_count",
+        "explicit_user_rating",
+        "latency_efficiency",
+        "cost_efficiency"
+      ],
+      "properties": {
+        "schema_validity": {"type": "number", "minimum": 0, "maximum": 1},
+        "support_grounding_quality": {"type": "number", "minimum": 0, "maximum": 1},
+        "first_pass_acceptance": {"type": "number", "minimum": 0, "maximum": 1},
+        "clarification_count": {"type": "number", "minimum": 0, "maximum": 1},
+        "regenerate_count": {"type": "number", "minimum": 0, "maximum": 1},
+        "explicit_user_rating": {"type": "number", "minimum": 0, "maximum": 1},
+        "latency_efficiency": {"type": "number", "minimum": 0, "maximum": 1},
+        "cost_efficiency": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "composite_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "rank": {"type": "integer", "minimum": 1},
+    "scoring_profile": {"type": "string", "minLength": 1},
+    "measured_at": {"type": "string", "format": "date-time"}
+  }
+}

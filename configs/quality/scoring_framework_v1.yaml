@@ -1,0 +1,119 @@
+version: v1
+kind: scoring_framework
+normalization:
+  score_range:
+    min: 0.0
+    max: 1.0
+  explicit_user_rating_scale:
+    min: 1
+    max: 5
+components:
+  - key: schema_validity
+    description: Measures conformance of artifacts to shared JSON schema contracts.
+    polarity: positive
+  - key: support_grounding_quality
+    description: Measures factual support quality and grounding confidence from retrieval/citations.
+    polarity: positive
+  - key: first_pass_acceptance
+    description: Measures how often users accept outputs without clarification or regeneration.
+    polarity: positive
+  - key: clarification_count
+    description: Penalizes repeated clarification loops needed to satisfy intent.
+    polarity: negative
+  - key: regenerate_count
+    description: Penalizes repeated regenerate requests for a workflow stage.
+    polarity: negative
+  - key: explicit_user_rating
+    description: Captures normalized user rating feedback.
+    polarity: positive
+  - key: latency_efficiency
+    description: Measures normalized latency efficiency against workflow targets.
+    polarity: positive
+  - key: cost_efficiency
+    description: Measures normalized cost efficiency against workflow budgets.
+    polarity: positive
+profiles:
+  baseline:
+    description: Default balanced profile for production scoring.
+    weights:
+      schema_validity: 0.16
+      support_grounding_quality: 0.2
+      first_pass_acceptance: 0.16
+      clarification_count: 0.1
+      regenerate_count: 0.1
+      explicit_user_rating: 0.14
+      latency_efficiency: 0.08
+      cost_efficiency: 0.06
+  quality_strict:
+    description: Prioritizes quality and user satisfaction over runtime efficiency.
+    weights:
+      schema_validity: 0.2
+      support_grounding_quality: 0.24
+      first_pass_acceptance: 0.16
+      clarification_count: 0.1
+      regenerate_count: 0.1
+      explicit_user_rating: 0.14
+      latency_efficiency: 0.04
+      cost_efficiency: 0.02
+  efficiency_first:
+    description: Emphasizes latency/cost for high-throughput workflows.
+    weights:
+      schema_validity: 0.14
+      support_grounding_quality: 0.16
+      first_pass_acceptance: 0.12
+      clarification_count: 0.08
+      regenerate_count: 0.08
+      explicit_user_rating: 0.12
+      latency_efficiency: 0.16
+      cost_efficiency: 0.14
+stage_rules:
+  understanding:
+    profile: quality_strict
+    gates:
+      min_schema_validity: 1.0
+      min_support_grounding_quality: 0.8
+      max_clarification_count: 3
+      max_regenerate_count: 2
+  outline:
+    profile: baseline
+    gates:
+      min_schema_validity: 1.0
+      min_first_pass_acceptance: 0.65
+      max_clarification_count: 2
+      max_regenerate_count: 2
+  deck_spec:
+    profile: baseline
+    gates:
+      min_schema_validity: 1.0
+      min_first_pass_acceptance: 0.7
+      max_clarification_count: 2
+      max_regenerate_count: 2
+  formatting:
+    profile: efficiency_first
+    gates:
+      min_schema_validity: 1.0
+      min_latency_efficiency: 0.75
+      min_cost_efficiency: 0.7
+      max_regenerate_count: 1
+  retrieval_reranking:
+    profile: quality_strict
+    gates:
+      min_support_grounding_quality: 0.85
+      min_first_pass_acceptance: 0.7
+      min_latency_efficiency: 0.6
+      min_cost_efficiency: 0.6
+workflow_overrides:
+  draft_mode:
+    stage_profiles:
+      understanding: baseline
+      outline: baseline
+      deck_spec: baseline
+      formatting: efficiency_first
+      retrieval_reranking: baseline
+  release_mode:
+    stage_profiles:
+      understanding: quality_strict
+      outline: quality_strict
+      deck_spec: quality_strict
+      formatting: baseline
+      retrieval_reranking: quality_strict

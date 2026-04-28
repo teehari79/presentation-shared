@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/user-text-feedback_v1.schema.json",
+  "title": "User Text Feedback v1",
+  "description": "Structured free-text feedback from users or reviewers.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "feedback_id", "session_id", "workflow_stage", "feedback_text", "created_at"],
+  "properties": {
+    "version": {"type": "string", "const": "v1"},
+    "feedback_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "request_id": {"type": "string", "minLength": 1},
+    "artifact_id": {"type": "string", "minLength": 1},
+    "workflow_stage": {"type": "string", "enum": ["understanding", "outline", "deck_spec", "formatting", "retrieval_reranking", "other"]},
+    "feedback_text": {"type": "string", "minLength": 1},
+    "sentiment_hint": {"type": "string", "enum": ["positive", "neutral", "negative", "mixed"]},
+    "tags": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "language": {"type": "string", "minLength": 2},
+    "created_at": {"type": "string", "format": "date-time"}
+  }
+}

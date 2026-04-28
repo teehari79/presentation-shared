@@ -1,0 +1,22 @@
+{
+  "version": "v1",
+  "record_id": "mcmp-001",
+  "session_id": "sess-123",
+  "workflow_stage": "retrieval_reranking",
+  "candidate_model": "providerA/model-x",
+  "baseline_model": "providerB/model-y",
+  "score_components": {
+    "schema_validity": 1.0,
+    "support_grounding_quality": 0.92,
+    "first_pass_acceptance": 0.75,
+    "clarification_count": 0.8,
+    "regenerate_count": 0.85,
+    "explicit_user_rating": 0.9,
+    "latency_efficiency": 0.7,
+    "cost_efficiency": 0.65
+  },
+  "composite_score": 0.84,
+  "rank": 1,
+  "scoring_profile": "quality_strict",
+  "measured_at": "2026-04-28T12:30:00Z"
+}

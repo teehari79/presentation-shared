@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/artifact-acceptance-record_v1.schema.json",
+  "title": "Artifact Acceptance Record v1",
+  "description": "Canonical acceptance/rejection signal for generated artifacts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "record_id", "session_id", "workflow_stage", "artifact_id", "decision", "decided_at"],
+  "properties": {
+    "version": {"type": "string", "const": "v1"},
+    "record_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "workflow_stage": {"type": "string", "enum": ["understanding", "outline", "deck_spec", "formatting", "retrieval_reranking", "other"]},
+    "artifact_id": {"type": "string", "minLength": 1},
+    "artifact_version": {"type": "string", "minLength": 1},
+    "artifact_kind": {"type": "string", "enum": ["understanding", "outline", "deck_spec", "rendered_output", "retrieval_result", "other"]},
+    "decision": {"type": "string", "enum": ["accepted", "rejected"]},
+    "decision_reason": {"type": "string", "minLength": 1},
+    "blocking": {"type": "boolean"},
+    "decided_by": {"type": "string", "enum": ["user", "reviewer", "system"]},
+    "decided_at": {"type": "string", "format": "date-time"}
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/regenerate-request-record_v1.schema.json",
+  "title": "Regenerate Request Record v1",
+  "description": "Captures explicit regenerate requests and resulting attempt counts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "record_id", "session_id", "workflow_stage", "artifact_id", "regenerate_count", "requested_at"],
+  "properties": {
+    "version": {"type": "string", "const": "v1"},
+    "record_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "workflow_stage": {"type": "string", "enum": ["understanding", "outline", "deck_spec", "formatting", "retrieval_reranking", "other"]},
+    "artifact_id": {"type": "string", "minLength": 1},
+    "regenerate_count": {"type": "integer", "minimum": 1},
+    "reason": {"type": "string", "minLength": 1},
+    "requested_by": {"type": "string", "enum": ["user", "reviewer", "system"]},
+    "requested_at": {"type": "string", "format": "date-time"}
+  }
+}
