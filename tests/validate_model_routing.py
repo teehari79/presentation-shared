@@ -13,6 +13,10 @@ SCHEMA_MAP = {
     "configs/models/fallbacks_v1.yaml": "schemas/model-fallbacks_v1.schema.json",
     "configs/models/policy_v1.yaml": "schemas/model-policy_v1.schema.json",
     "configs/models/model_profile_catalog_v1.yaml": "schemas/model-profile-catalog_v1.schema.json",
+    "configs/models/catalog.yaml": "schemas/model-catalog-entry_v1.schema.json",
+    "configs/models/routing.yaml": "schemas/routing-entry_v1.schema.json",
+    "configs/models/fallbacks.yaml": "schemas/fallback-policy_v1.schema.json",
+    "configs/models/scoring.yaml": "schemas/model-routing-scoring_v1.schema.json",
 }
 
 
@@ -191,15 +195,121 @@ def validate_cross_config_consistency() -> None:
                 )
 
 
+def validate_model_routing_control_plane() -> None:
+    providers = load_yaml(ROOT / "configs/models/providers_v1.yaml")
+    catalog = load_yaml(ROOT / "configs/models/catalog.yaml")
+    routing = load_yaml(ROOT / "configs/models/routing.yaml")
+    fallbacks = load_yaml(ROOT / "configs/models/fallbacks.yaml")
+    scoring = load_yaml(ROOT / "configs/models/scoring.yaml")
+
+    provider_names = {provider["name"] for provider in providers["providers"]}
+    allowed_external_providers = {"cohere_managed"}
+    model_keys = {entry["key"] for entry in catalog["models"]}
+    model_by_key = {entry["key"]: entry for entry in catalog["models"]}
+    compatible_roles = {
+        "reasoning_primary": {"reasoning_primary", "reasoning_fast"},
+        "reasoning_fast": {"reasoning_primary", "reasoning_fast"},
+    }
+
+    def slot_role_match(slot_name: str, model_key: str) -> bool:
+        roles = set(model_by_key[model_key]["roles"])
+        allowed = compatible_roles.get(slot_name, {slot_name})
+        return bool(roles & allowed)
+
+    for entry in catalog["models"]:
+        validate(entry, load_json(ROOT / "schemas/model-catalog-entry_v1.schema.json"), path="$.models[]")
+        if entry["provider"] not in provider_names and entry["provider"] not in allowed_external_providers:
+            raise ValueError(f"catalog provider is not recognized: {entry['provider']}")
+
+    for slot_name, slot_entry in routing["task_slots"].items():
+        validate(slot_entry, load_json(ROOT / "schemas/routing-entry_v1.schema.json"), path=f"$.task_slots.{slot_name}")
+        for model_key in slot_entry["model_keys"]:
+            if model_key not in model_keys:
+                raise ValueError(f"task slot {slot_name} references unknown model key: {model_key}")
+            if not slot_role_match(slot_name, model_key):
+                raise ValueError(
+                    f"task slot {slot_name} references model {model_key} without matching role"
+                )
+
+    for task_name, slot_name in routing["workflow_task_routes"].items():
+        if slot_name not in routing["task_slots"]:
+            raise ValueError(f"workflow route {task_name} references unknown slot: {slot_name}")
+
+    required_slots = {
+        "reasoning_primary",
+        "reasoning_fast",
+        "classification_small",
+        "formatting_small",
+        "embedding_primary",
+        "reranker_primary",
+    }
+    missing_slots = required_slots - set(routing["task_slots"].keys())
+    if missing_slots:
+        raise ValueError(f"routing is missing required task slots: {sorted(missing_slots)}")
+
+    for slot_name, slot_policy in fallbacks["slot_policies"].items():
+        validate(slot_policy, load_json(ROOT / "schemas/fallback-policy_v1.schema.json"), path=f"$.slot_policies.{slot_name}")
+        if slot_name not in routing["task_slots"]:
+            raise ValueError(f"fallback slot policy references unknown slot: {slot_name}")
+        for model_key in slot_policy["ordered_model_chain"]:
+            if model_key not in model_keys:
+                raise ValueError(f"fallback slot {slot_name} references unknown model key: {model_key}")
+            if not slot_role_match(slot_name, model_key):
+                raise ValueError(
+                    f"fallback slot {slot_name} references model {model_key} without matching role"
+                )
+
+    missing_fallbacks = set(routing["task_slots"].keys()) - set(fallbacks["slot_policies"].keys())
+    if missing_fallbacks:
+        raise ValueError(f"fallback policies missing slots: {sorted(missing_fallbacks)}")
+
+    for profile_name, profile in routing["profile_bundles"].items():
+        missing_bundle_slots = required_slots - set(profile.keys())
+        if missing_bundle_slots:
+            raise ValueError(
+                f"profile bundle {profile_name} missing required slots: {sorted(missing_bundle_slots)}"
+            )
+        for slot_name, bundle_model_keys in profile.items():
+            if slot_name not in routing["task_slots"]:
+                raise ValueError(f"profile bundle {profile_name} references unknown slot: {slot_name}")
+            for model_key in bundle_model_keys:
+                if model_key not in model_keys:
+                    raise ValueError(
+                        f"profile bundle {profile_name} slot {slot_name} references unknown model: {model_key}"
+                    )
+                if not slot_role_match(slot_name, model_key):
+                    raise ValueError(
+                        f"profile bundle {profile_name} slot {slot_name} references model {model_key} without matching role"
+                    )
+
+    validate(scoring, load_json(ROOT / "schemas/model-routing-scoring_v1.schema.json"), path="$.scoring")
+    weight_sum = sum(scoring["weights"].values())
+    if abs(weight_sum - 1.0) > 1e-9:
+        raise ValueError(f"scoring weights must sum to 1.0 (got {weight_sum})")
+
+
 def main() -> int:
     for config_path, schema_path in SCHEMA_MAP.items():
         config = load_yaml(ROOT / config_path)
         schema = load_json(ROOT / schema_path)
-        validate(config, schema)
+        if config_path.endswith("catalog.yaml"):
+            for idx, item in enumerate(config["models"]):
+                validate(item, schema, path=f"$.models[{idx}]")
+        elif config_path.endswith("routing.yaml"):
+            for slot_name, slot in config["task_slots"].items():
+                validate(slot, schema, path=f"$.task_slots.{slot_name}")
+        elif config_path.endswith("fallbacks.yaml"):
+            for slot_name, slot_policy in config["slot_policies"].items():
+                validate(slot_policy, schema, path=f"$.slot_policies.{slot_name}")
+        else:
+            validate(config, schema)
         print(f"validated: {config_path} -> {schema_path}")
 
     validate_cross_config_consistency()
     print("validated: cross-config provider/model/slot references")
+
+    validate_model_routing_control_plane()
+    print("validated: model routing control-plane catalog/routing/fallback/profile/scoring checks")
     return 0
 
 

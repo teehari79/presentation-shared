@@ -16,3 +16,6 @@ This repository contains shared schemas, configs, policies, prompts, and design 
 - Keep provider/model identifiers configurable in YAML; avoid hardcoding them in downstream business logic.
 - Ensure routing, fallback, and policy files stay environment-agnostic and free of secrets/endpoints.
 - When updating model control-plane configs, update schemas and `tests/validate_model_routing.py` together.
+
+- Prefer updating `configs/models/catalog.yaml`, `configs/models/routing.yaml`, `configs/models/fallbacks.yaml`, and `configs/models/scoring.yaml` to swap providers/models and tuning behavior rather than hardcoding changes in downstream services.
+- Keep `tests/validate_model_routing.py` aligned with both legacy `_v1` files and the production-oriented control-plane files above.

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Regenerate Request Event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "event_id", "session_id", "artifact_id", "regenerate_count", "created_at"],
+  "properties": {
+    "version": {"type": "string", "enum": ["v1"]},
+    "event_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "artifact_id": {"type": "string", "minLength": 1},
+    "regenerate_count": {"type": "integer", "minimum": 1},
+    "reason": {"type": "string", "minLength": 1},
+    "created_at": {"type": "string", "minLength": 1}
+  }
+}

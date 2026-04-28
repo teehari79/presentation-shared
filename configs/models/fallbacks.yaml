@@ -1,0 +1,39 @@
+version: v1
+kind: fallback_policy
+
+defaults:
+  max_attempts: 2
+  timeout_ms: 30000
+  require_structured_output_validation: true
+
+slot_policies:
+  reasoning_primary:
+    max_attempts: 3
+    timeout_ms: 45000
+    require_structured_output_validation: true
+    ordered_model_chain: [openai_reasoning_primary, vertex_reasoning_primary, azure_reasoning_primary]
+  reasoning_fast:
+    max_attempts: 2
+    timeout_ms: 22000
+    require_structured_output_validation: true
+    ordered_model_chain: [openai_reasoning_fast, vertex_reasoning_fast, azure_reasoning_primary]
+  classification_small:
+    max_attempts: 2
+    timeout_ms: 12000
+    require_structured_output_validation: true
+    ordered_model_chain: [hf_classifier_baseline_distilbert, hf_semantic_classifier_minilm, openai_reasoning_fast]
+  formatting_small:
+    max_attempts: 2
+    timeout_ms: 12000
+    require_structured_output_validation: false
+    ordered_model_chain: [groq_fast_formatting_slot, openai_reasoning_fast]
+  embedding_primary:
+    max_attempts: 2
+    timeout_ms: 8000
+    require_structured_output_validation: false
+    ordered_model_chain: [hf_embedding_bge_small, hf_embedding_e5_small, hf_embedding_minilm]
+  reranker_primary:
+    max_attempts: 2
+    timeout_ms: 9000
+    require_structured_output_validation: false
+    ordered_model_chain: [hf_reranker_bge_m3, hf_reranker_minilm_cross_encoder, cohere_rerank_managed_optional]

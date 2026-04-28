@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Fallback Policy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["max_attempts", "timeout_ms", "require_structured_output_validation", "ordered_model_chain"],
+  "properties": {
+    "max_attempts": {"type": "integer", "minimum": 1},
+    "timeout_ms": {"type": "integer", "minimum": 1},
+    "require_structured_output_validation": {"type": "boolean"},
+    "ordered_model_chain": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    }
+  }
+}

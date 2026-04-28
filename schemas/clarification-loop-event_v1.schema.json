@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Clarification Loop Event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "event_id", "session_id", "clarification_count", "resolved", "created_at"],
+  "properties": {
+    "version": {"type": "string", "enum": ["v1"]},
+    "event_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "clarification_count": {"type": "integer", "minimum": 0},
+    "resolved": {"type": "boolean"},
+    "notes": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "created_at": {"type": "string", "minLength": 1}
+  }
+}
