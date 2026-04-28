@@ -13,6 +13,12 @@ SCHEMA_MAP = {
     "render-plan.sample.json": "render-plan.schema.json",
     "safety-check-result.sample.json": "safety-check-result.schema.json",
     "llm-tool-cache-log-record.sample.json": "llm-tool-cache-log-record.schema.json",
+    "feedback-thumbs-event.sample_v1.json": "feedback-thumbs-event_v1.schema.json",
+    "user-text-feedback.sample_v1.json": "user-text-feedback_v1.schema.json",
+    "artifact-acceptance-record.sample_v1.json": "artifact-acceptance-record_v1.schema.json",
+    "clarification-loop-record.sample_v1.json": "clarification-loop-record_v1.schema.json",
+    "regenerate-request-record.sample_v1.json": "regenerate-request-record_v1.schema.json",
+    "model-comparison-score-record.sample_v1.json": "model-comparison-score-record_v1.schema.json",
 }
 
 

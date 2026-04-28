@@ -54,13 +54,13 @@ Validation coverage for this control plane is provided by `tests/validate_model_
 ## Key directories
 
 - `schemas/`: Draft 2020-12 JSON schemas for workflow artifacts.
-- `configs/`: Versioned YAML configuration sets.
+- `configs/`: Versioned YAML configuration sets, including quality/scoring profiles for stage-aware model evaluation.
 - `policies/`: RBAC/ABAC, safety, and export policies.
 - `design-graph/`: Themes, layouts, icon maps, object recipes, and sample slides.
 - `prompts/`: Prompt template text files (system/user).
 - `examples/`: Example JSON fixtures for schema validation.
 - `redteam/`: Shared adversarial cases, scoring rubrics, schemas, and fixtures.
-- `docs/`: Practical red-team, operator, incident-response, and rollout playbooks.
+- `docs/`: Practical red-team, operator, incident-response, rollout, and scoring-framework playbooks.
 - `scripts/`: Validation scripts for schemas/configs/fixtures.
 - `tests/`: Lightweight validation checks.
 
@@ -100,6 +100,7 @@ Run lightweight validations:
 ./scripts/validate-configs.sh
 ./scripts/validate-versions.sh
 ./scripts/validate-redteam.sh
+python3 tests/validate_scoring_framework.py
 ```
 
 These checks parse JSON schemas, validate YAML structure, validate fixture payloads against matching schemas, and verify changelog/version consistency.

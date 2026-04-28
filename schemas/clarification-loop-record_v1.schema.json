@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/clarification-loop-record_v1.schema.json",
+  "title": "Clarification Loop Record v1",
+  "description": "Tracks a clarification cycle used to resolve missing or ambiguous user intent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "loop_id", "session_id", "workflow_stage", "clarification_count", "resolved", "recorded_at"],
+  "properties": {
+    "version": {"type": "string", "const": "v1"},
+    "loop_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "request_id": {"type": "string", "minLength": 1},
+    "workflow_stage": {"type": "string", "enum": ["understanding", "outline", "deck_spec", "formatting", "retrieval_reranking", "other"]},
+    "clarification_count": {"type": "integer", "minimum": 0},
+    "resolved": {"type": "boolean"},
+    "open_questions": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "recorded_at": {"type": "string", "format": "date-time"}
+  }
+}
