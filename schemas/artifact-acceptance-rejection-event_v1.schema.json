@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Artifact Acceptance Rejection Event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "event_id", "session_id", "artifact_id", "decision", "created_at"],
+  "properties": {
+    "version": {"type": "string", "enum": ["v1"]},
+    "event_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "artifact_id": {"type": "string", "minLength": 1},
+    "decision": {"type": "string", "enum": ["accepted", "rejected"]},
+    "decision_reason": {"type": "string", "minLength": 1},
+    "created_at": {"type": "string", "minLength": 1}
+  }
+}

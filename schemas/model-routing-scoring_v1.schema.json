@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Model Routing Scoring Config v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "kind", "weights", "normalization"],
+  "properties": {
+    "version": {"type": "string", "enum": ["v1"]},
+    "kind": {"type": "string", "enum": ["model_routing_scoring"]},
+    "weights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_validity", "first_pass_acceptance", "clarification_count", "regenerate_count", "explicit_user_rating", "latency_efficiency", "cost_efficiency"],
+      "properties": {
+        "schema_validity": {"type": "number", "minimum": 0, "maximum": 1},
+        "first_pass_acceptance": {"type": "number", "minimum": 0, "maximum": 1},
+        "clarification_count": {"type": "number", "minimum": 0, "maximum": 1},
+        "regenerate_count": {"type": "number", "minimum": 0, "maximum": 1},
+        "explicit_user_rating": {"type": "number", "minimum": 0, "maximum": 1},
+        "latency_efficiency": {"type": "number", "minimum": 0, "maximum": 1},
+        "cost_efficiency": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "normalization": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["min", "max", "higher_is_better"],
+        "properties": {
+          "min": {"type": "number"},
+          "max": {"type": "number"},
+          "higher_is_better": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Textual Feedback Event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "event_id", "session_id", "feedback_text", "created_at"],
+  "properties": {
+    "version": {"type": "string", "enum": ["v1"]},
+    "event_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "artifact_id": {"type": "string", "minLength": 1},
+    "feedback_text": {"type": "string", "minLength": 1},
+    "tags": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "created_at": {"type": "string", "minLength": 1}
+  }
+}

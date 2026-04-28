@@ -48,6 +48,10 @@ The `configs/models/` directory is the shared control plane for model-provider a
 - `routing_v1.yaml`: named task slots and workflow task-to-slot mapping so application logic does not hardcode model IDs.
 - `fallbacks_v1.yaml`: ordered fallback chains, retry/timeout policy, fail-open vs fail-closed behavior, and structured-output revalidation flags.
 - `policy_v1.yaml`: global guardrails that enforce environment-agnostic and versioned model-routing behavior.
+- `catalog.yaml`: production-oriented multi-provider model catalog keyed by stable `model_key` identifiers for slot routing and fallback chains.
+- `routing.yaml`: task-slot registry, workflow task-to-slot mappings, and profile bundles (`balanced_enterprise`, `hf_heavy`, `low_cost_experiment`) to swap provider/model choices without code changes.
+- `fallbacks.yaml`: per-slot fallback controls (`max_attempts`, `timeout_ms`, `require_structured_output_validation`, `ordered_model_chain`) for deterministic failover.
+- `scoring.yaml`: tunable scoring weights for schema validity, acceptance, clarification/regenerate counts, user rating, latency, and cost efficiency.
 
 Validation coverage for this control plane is provided by `tests/validate_model_routing.py`, which checks both schema conformance and cross-file reference integrity.
 

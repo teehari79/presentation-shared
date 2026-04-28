@@ -1,0 +1,25 @@
+version: v1
+kind: model_routing_scoring
+
+weights:
+  schema_validity: 0.20
+  first_pass_acceptance: 0.20
+  clarification_count: 0.10
+  regenerate_count: 0.10
+  explicit_user_rating: 0.15
+  latency_efficiency: 0.125
+  cost_efficiency: 0.125
+
+normalization:
+  clarification_count:
+    min: 0
+    max: 5
+    higher_is_better: false
+  regenerate_count:
+    min: 0
+    max: 5
+    higher_is_better: false
+  explicit_user_rating:
+    min: -1
+    max: 1
+    higher_is_better: true

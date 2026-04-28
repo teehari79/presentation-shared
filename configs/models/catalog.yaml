@@ -1,0 +1,156 @@
+version: v1
+kind: model_catalog
+models:
+  - key: openai_reasoning_primary
+    provider: openai
+    model_id: gpt-5.1
+    label: OpenAI reasoning primary
+    roles: [reasoning_primary]
+    capabilities: [reasoning, structured_output, tool_use]
+    metadata:
+      latency_class: medium
+      cost_class: premium
+      status: active
+
+  - key: openai_reasoning_fast
+    provider: openai
+    model_id: gpt-5-mini
+    label: OpenAI reasoning fast
+    roles: [reasoning_fast, classification_small]
+    capabilities: [reasoning, structured_output, classification]
+    metadata:
+      latency_class: fast
+      cost_class: standard
+      status: active
+
+  - key: vertex_reasoning_primary
+    provider: vertex_ai
+    model_id: gemini-2.5-pro
+    label: Vertex reasoning primary
+    roles: [reasoning_primary]
+    capabilities: [reasoning, structured_output, tool_use]
+    metadata:
+      latency_class: medium
+      cost_class: premium
+      status: active
+
+  - key: vertex_reasoning_fast
+    provider: vertex_ai
+    model_id: gemini-2.5-flash
+    label: Vertex reasoning fast
+    roles: [reasoning_fast]
+    capabilities: [reasoning, structured_output, classification]
+    metadata:
+      latency_class: fast
+      cost_class: standard
+      status: active
+
+  - key: azure_reasoning_primary
+    provider: azure_foundry
+    model_id: premium-general-v1
+    label: Azure reasoning primary
+    roles: [reasoning_primary]
+    capabilities: [reasoning, structured_output, tool_use]
+    metadata:
+      latency_class: medium
+      cost_class: premium
+      status: active
+
+  - key: hf_classifier_baseline_distilbert
+    provider: hugging_face
+    model_id: distilbert-base-uncased-finetuned-sst-2-english
+    label: Hugging Face classifier baseline using DistilBERT
+    roles: [classification_small]
+    capabilities: [classification]
+    metadata:
+      latency_class: fast
+      cost_class: economy
+      status: active
+
+  - key: hf_semantic_classifier_minilm
+    provider: hugging_face
+    model_id: sentence-transformers/all-MiniLM-L6-v2
+    label: Hugging Face semantic classifier using sentence-transformers/all-MiniLM-L6-v2
+    roles: [classification_small]
+    capabilities: [semantic_classification, embedding]
+    metadata:
+      latency_class: fast
+      cost_class: economy
+      status: active
+
+  - key: hf_embedding_bge_small
+    provider: hugging_face
+    model_id: BAAI/bge-small-en-v1.5
+    label: Hugging Face embeddings using BAAI/bge-small-en-v1.5
+    roles: [embedding_primary]
+    capabilities: [embedding, retrieval]
+    metadata:
+      latency_class: fast
+      cost_class: economy
+      status: active
+
+  - key: hf_embedding_e5_small
+    provider: hugging_face
+    model_id: intfloat/multilingual-e5-small
+    label: Hugging Face embeddings using intfloat/multilingual-e5-small
+    roles: [embedding_primary]
+    capabilities: [embedding, retrieval, multilingual]
+    metadata:
+      latency_class: fast
+      cost_class: economy
+      status: active
+
+  - key: hf_embedding_minilm
+    provider: hugging_face
+    model_id: sentence-transformers/all-MiniLM-L6-v2
+    label: Hugging Face embeddings using sentence-transformers/all-MiniLM-L6-v2
+    roles: [embedding_primary]
+    capabilities: [embedding, retrieval]
+    metadata:
+      latency_class: fast
+      cost_class: economy
+      status: active
+
+  - key: hf_reranker_minilm_cross_encoder
+    provider: hugging_face
+    model_id: cross-encoder/ms-marco-MiniLM-L6-v2
+    label: Hugging Face reranker using cross-encoder/ms-marco-MiniLM-L6-v2
+    roles: [reranker_primary]
+    capabilities: [reranking, retrieval]
+    metadata:
+      latency_class: fast
+      cost_class: economy
+      status: active
+
+  - key: hf_reranker_bge_m3
+    provider: hugging_face
+    model_id: BAAI/bge-reranker-v2-m3
+    label: Hugging Face reranker using BAAI/bge-reranker-v2-m3
+    roles: [reranker_primary]
+    capabilities: [reranking, retrieval]
+    metadata:
+      latency_class: medium
+      cost_class: economy
+      status: active
+
+  - key: cohere_rerank_managed_optional
+    provider: cohere_managed
+    model_id: rerank-v3.5
+    label: Cohere rerank as managed optional fallback
+    roles: [reranker_primary]
+    capabilities: [reranking, retrieval]
+    metadata:
+      latency_class: fast
+      cost_class: standard
+      status: optional
+
+  - key: groq_fast_formatting_slot
+    provider: groq
+    model_id: llama-3.3-70b-versatile
+    label: Groq fast formatting slot
+    roles: [formatting_small]
+    capabilities: [formatting, cleanup]
+    metadata:
+      latency_class: very_fast
+      cost_class: economy
+      status: active

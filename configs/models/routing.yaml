@@ -1,0 +1,57 @@
+version: v1
+kind: task_slot_routing
+
+task_slots:
+  reasoning_primary:
+    description: Primary high-quality reasoning for generation-heavy tasks.
+    model_keys: [openai_reasoning_primary, vertex_reasoning_primary, azure_reasoning_primary]
+  reasoning_fast:
+    description: Lower-latency reasoning for clarification loops.
+    model_keys: [openai_reasoning_fast, vertex_reasoning_fast]
+  classification_small:
+    description: Small-footprint classifier slot.
+    model_keys: [hf_classifier_baseline_distilbert, hf_semantic_classifier_minilm, openai_reasoning_fast]
+  formatting_small:
+    description: Fast formatting and cleanup slot.
+    model_keys: [groq_fast_formatting_slot, openai_reasoning_fast]
+  embedding_primary:
+    description: Primary embeddings slot for retrieval.
+    model_keys: [hf_embedding_bge_small, hf_embedding_e5_small, hf_embedding_minilm]
+  reranker_primary:
+    description: Primary retrieval reranking slot.
+    model_keys: [hf_reranker_bge_m3, hf_reranker_minilm_cross_encoder]
+
+workflow_task_routes:
+  understanding.generation: reasoning_primary
+  clarification.generation: reasoning_fast
+  outline.generation: reasoning_primary
+  deck_spec.generation: reasoning_primary
+  sufficiency.classification: classification_small
+  hitl_required.classification: classification_small
+  output_acceptability.classification: classification_small
+  formatting.cleanup: formatting_small
+  retrieval.embedding: embedding_primary
+  retrieval.reranking: reranker_primary
+
+profile_bundles:
+  balanced_enterprise:
+    reasoning_primary: [openai_reasoning_primary, vertex_reasoning_primary, azure_reasoning_primary]
+    reasoning_fast: [openai_reasoning_fast, vertex_reasoning_fast]
+    classification_small: [hf_classifier_baseline_distilbert, openai_reasoning_fast]
+    formatting_small: [groq_fast_formatting_slot, openai_reasoning_fast]
+    embedding_primary: [hf_embedding_bge_small, hf_embedding_e5_small]
+    reranker_primary: [hf_reranker_bge_m3, cohere_rerank_managed_optional]
+  hf_heavy:
+    reasoning_primary: [vertex_reasoning_primary, openai_reasoning_primary]
+    reasoning_fast: [vertex_reasoning_fast, openai_reasoning_fast]
+    classification_small: [hf_classifier_baseline_distilbert, hf_semantic_classifier_minilm]
+    formatting_small: [groq_fast_formatting_slot]
+    embedding_primary: [hf_embedding_bge_small, hf_embedding_minilm, hf_embedding_e5_small]
+    reranker_primary: [hf_reranker_bge_m3, hf_reranker_minilm_cross_encoder]
+  low_cost_experiment:
+    reasoning_primary: [vertex_reasoning_fast, openai_reasoning_fast]
+    reasoning_fast: [vertex_reasoning_fast, openai_reasoning_fast]
+    classification_small: [hf_classifier_baseline_distilbert, hf_semantic_classifier_minilm]
+    formatting_small: [groq_fast_formatting_slot]
+    embedding_primary: [hf_embedding_minilm, hf_embedding_e5_small]
+    reranker_primary: [hf_reranker_minilm_cross_encoder, hf_reranker_bge_m3]

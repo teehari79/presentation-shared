@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Model Catalog Entry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["key", "provider", "model_id", "label", "roles", "capabilities", "metadata"],
+  "properties": {
+    "key": {"type": "string", "minLength": 1},
+    "provider": {"type": "string", "minLength": 1},
+    "model_id": {"type": "string", "minLength": 1},
+    "label": {"type": "string", "minLength": 1},
+    "roles": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "capabilities": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["latency_class", "cost_class", "status"],
+      "properties": {
+        "latency_class": {"type": "string", "enum": ["very_fast", "fast", "medium", "slow"]},
+        "cost_class": {"type": "string", "enum": ["economy", "standard", "premium"]},
+        "status": {"type": "string", "enum": ["active", "optional", "deprecated"]}
+      }
+    }
+  }
+}

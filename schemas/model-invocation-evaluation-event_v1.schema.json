@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Model Invocation Evaluation Event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "event_id", "session_id", "task", "slot", "model_key", "scores", "captured_at"],
+  "properties": {
+    "version": {"type": "string", "enum": ["v1"]},
+    "event_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string", "minLength": 1},
+    "task": {"type": "string", "minLength": 1},
+    "slot": {"type": "string", "minLength": 1},
+    "model_key": {"type": "string", "minLength": 1},
+    "scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_validity", "first_pass_acceptance", "clarification_count", "regenerate_count", "explicit_user_rating", "latency_efficiency", "cost_efficiency"],
+      "properties": {
+        "schema_validity": {"type": "number", "minimum": 0, "maximum": 1},
+        "first_pass_acceptance": {"type": "number", "minimum": 0, "maximum": 1},
+        "clarification_count": {"type": "number", "minimum": 0, "maximum": 1},
+        "regenerate_count": {"type": "number", "minimum": 0, "maximum": 1},
+        "explicit_user_rating": {"type": "number", "minimum": -1, "maximum": 1},
+        "latency_efficiency": {"type": "number", "minimum": 0, "maximum": 1},
+        "cost_efficiency": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "captured_at": {"type": "string", "minLength": 1}
+  }
+}
