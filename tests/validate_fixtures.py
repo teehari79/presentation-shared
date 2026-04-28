@@ -54,6 +54,9 @@ def validate(instance, schema, path="$"):
         if not matches_type(instance, schema_type):
             raise ValueError(f"{path}: expected type {schema_type}")
 
+    if "const" in schema and instance != schema["const"]:
+        raise ValueError(f"{path}: expected const value {schema['const']!r}")
+
     if "enum" in schema and instance not in schema["enum"]:
         raise ValueError(f"{path}: value not in enum")
 
