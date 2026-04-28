@@ -1,0 +1,10 @@
+version: v1
+kind: model_profile_bundle
+bundle_id: hf-heavy
+description: Hugging Face-first deployment profile for teams standardizing on HF-hosted artifacts.
+profiles:
+  classification: hf_small_classification
+  formatting_rewrite: hf_small_formatting
+  local_instruction: local_quantized_instruction_7b
+  embedding: hf_embedding_large_local
+  reranking: hf_reranker_quality

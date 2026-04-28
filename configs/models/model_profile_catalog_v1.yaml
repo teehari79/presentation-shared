@@ -1,0 +1,165 @@
+version: v1
+kind: model_profile_catalog
+profile_types:
+  - small_classification
+  - small_formatting
+  - local_quantized_instruction
+  - embedding
+  - reranker
+profiles:
+  - profile_id: hf_small_classification
+    profile_type: small_classification
+    provider: hugging_face
+    model_id: cardiffnlp/twitter-roberta-base-sentiment-latest
+    label: HF RoBERTa Sentiment Classifier
+    expected_task_fit:
+      - sentiment_classification
+      - zero_shot_topic_routing
+      - triage
+    cpu_suitability: high
+    local_dev_suitability: high
+    latency_class: fast
+    cost_class: economy
+    structured_output_fit: low
+    experimentation_only: true
+    environment_allowlist: [development, staging]
+  - profile_id: hf_small_classification_multilingual
+    profile_type: small_classification
+    provider: hugging_face
+    model_id: papluca/xlm-roberta-base-language-detection
+    label: HF XLM-R Language Classifier
+    expected_task_fit:
+      - language_identification
+      - routing_precheck
+    cpu_suitability: high
+    local_dev_suitability: high
+    latency_class: very_fast
+    cost_class: economy
+    structured_output_fit: low
+    experimentation_only: true
+    environment_allowlist: [development, staging]
+  - profile_id: hf_small_formatting
+    profile_type: small_formatting
+    provider: hugging_face
+    model_id: mistralai/Mistral-7B-Instruct-v0.3
+    label: HF Mistral 7B Formatting
+    expected_task_fit:
+      - text_rewrite
+      - style_normalization
+      - markdown_cleanup
+    cpu_suitability: medium
+    local_dev_suitability: medium
+    latency_class: medium
+    cost_class: economy
+    structured_output_fit: medium
+    experimentation_only: true
+    environment_allowlist: [development, staging]
+  - profile_id: hf_small_formatting_lite
+    profile_type: small_formatting
+    provider: hugging_face
+    model_id: google/gemma-2-2b-it
+    label: HF Gemma 2 2B IT Formatting
+    expected_task_fit:
+      - short_rewrite
+      - prompt_polish
+      - schema_key_renaming
+    cpu_suitability: medium
+    local_dev_suitability: high
+    latency_class: fast
+    cost_class: economy
+    structured_output_fit: medium
+    experimentation_only: true
+    environment_allowlist: [development, staging]
+  - profile_id: local_quantized_instruction_7b
+    profile_type: local_quantized_instruction
+    provider: local
+    model_id: unsloth/llama-3.2-3b-instruct-GGUF
+    label: Local Quantized Instruction 3B
+    expected_task_fit:
+      - local_prompt_iteration
+      - deterministic_rewrite
+      - dry_run_validation
+    cpu_suitability: medium
+    local_dev_suitability: high
+    latency_class: medium
+    cost_class: economy
+    structured_output_fit: medium
+    experimentation_only: true
+    environment_allowlist: [development]
+  - profile_id: local_quantized_instruction_8b
+    profile_type: local_quantized_instruction
+    provider: local
+    model_id: lmstudio-community/Qwen2.5-7B-Instruct-GGUF
+    label: Local Quantized Instruction 7B
+    expected_task_fit:
+      - local_summarization
+      - constrained_generation
+      - fallback_dev_agent
+    cpu_suitability: low
+    local_dev_suitability: high
+    latency_class: slow
+    cost_class: economy
+    structured_output_fit: medium
+    experimentation_only: true
+    environment_allowlist: [development]
+  - profile_id: hf_embedding_small
+    profile_type: embedding
+    provider: hugging_face
+    model_id: sentence-transformers/all-MiniLM-L6-v2
+    label: HF MiniLM Embeddings
+    expected_task_fit:
+      - retrieval
+      - clustering
+      - semantic_search
+    cpu_suitability: high
+    local_dev_suitability: high
+    latency_class: fast
+    cost_class: economy
+    structured_output_fit: not_applicable
+    experimentation_only: false
+    environment_allowlist: [production, staging, development]
+  - profile_id: hf_embedding_large_local
+    profile_type: embedding
+    provider: hugging_face
+    model_id: BAAI/bge-small-en-v1.5
+    label: HF BGE Small Embeddings
+    expected_task_fit:
+      - retrieval
+      - semantic_deduplication
+    cpu_suitability: medium
+    local_dev_suitability: high
+    latency_class: fast
+    cost_class: economy
+    structured_output_fit: not_applicable
+    experimentation_only: false
+    environment_allowlist: [production, staging, development]
+  - profile_id: hf_reranker_small
+    profile_type: reranker
+    provider: hugging_face
+    model_id: cross-encoder/ms-marco-MiniLM-L-6-v2
+    label: HF MiniLM Reranker
+    expected_task_fit:
+      - retrieval_reranking
+      - citation_selection
+    cpu_suitability: high
+    local_dev_suitability: high
+    latency_class: fast
+    cost_class: economy
+    structured_output_fit: not_applicable
+    experimentation_only: false
+    environment_allowlist: [production, staging, development]
+  - profile_id: hf_reranker_quality
+    profile_type: reranker
+    provider: hugging_face
+    model_id: BAAI/bge-reranker-base
+    label: HF BGE Reranker Base
+    expected_task_fit:
+      - high_precision_reranking
+      - search_quality_evaluation
+    cpu_suitability: medium
+    local_dev_suitability: medium
+    latency_class: medium
+    cost_class: standard
+    structured_output_fit: not_applicable
+    experimentation_only: false
+    environment_allowlist: [production, staging, development]

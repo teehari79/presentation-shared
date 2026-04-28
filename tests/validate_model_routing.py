@@ -12,6 +12,7 @@ SCHEMA_MAP = {
     "configs/models/routing_v1.yaml": "schemas/model-routing_v1.schema.json",
     "configs/models/fallbacks_v1.yaml": "schemas/model-fallbacks_v1.schema.json",
     "configs/models/policy_v1.yaml": "schemas/model-policy_v1.schema.json",
+    "configs/models/model_profile_catalog_v1.yaml": "schemas/model-profile-catalog_v1.schema.json",
 }
 
 
@@ -115,6 +116,7 @@ def validate_cross_config_consistency() -> None:
     routing = load_yaml(ROOT / "configs/models/routing_v1.yaml")
     fallbacks = load_yaml(ROOT / "configs/models/fallbacks_v1.yaml")
     policy = load_yaml(ROOT / "configs/models/policy_v1.yaml")
+    profile_catalog = load_yaml(ROOT / "configs/models/model_profile_catalog_v1.yaml")
 
     provider_names = {provider["name"] for provider in providers["providers"]}
     model_refs = {f"{model['provider']}/{model['model_id']}" for model in catalog["models"]}
@@ -165,6 +167,28 @@ def validate_cross_config_consistency() -> None:
             raise ValueError(
                 f"policy required_provider_abstractions references unknown provider: {required_provider}"
             )
+
+    profile_types = set(profile_catalog["profile_types"])
+    profile_ids = set()
+    for profile in profile_catalog["profiles"]:
+        profile_ids.add(profile["profile_id"])
+        if profile["profile_type"] not in profile_types:
+            raise ValueError(
+                f"profile catalog references unknown profile_type: {profile['profile_type']}"
+            )
+        if profile["provider"] != "local" and profile["provider"] not in provider_names:
+            raise ValueError(f"profile catalog references unknown provider: {profile['provider']}")
+
+    bundles_dir = ROOT / "configs/models/profile_bundles_v1"
+    for bundle_path in sorted(bundles_dir.glob("*.yaml")):
+        bundle = load_yaml(bundle_path)
+        schema = load_json(ROOT / "schemas/model-profile-bundle_v1.schema.json")
+        validate(bundle, schema, path=f"${bundle_path.name}")
+        for task_name, profile_id in bundle["profiles"].items():
+            if profile_id not in profile_ids:
+                raise ValueError(
+                    f"bundle {bundle_path.name} task {task_name} references unknown profile: {profile_id}"
+                )
 
 
 def main() -> int:
