@@ -2,7 +2,7 @@
 
 Production-oriented shared backbone for the Presentation AI platform. This repository is the source of truth for:
 
-- JSON schemas for workflow contracts
+- JSON schemas for session-oriented API and artifact contracts
 - Versioned YAML configs for routing, quality, limits, and safety
 - RBAC/ABAC and content safety policies
 - Design graph metadata for themes/layouts/object recipes
@@ -55,9 +55,18 @@ The `configs/models/` directory is the shared control plane for model-provider a
 
 Validation coverage for this control plane is provided by `tests/validate_model_routing.py`, which checks both schema conformance and cross-file reference integrity.
 
+
+## Session API contract model
+
+The canonical backend API contract is **session-oriented** under `/v1/sessions/*` (for example create session, register inputs, understanding/questions, outline, and deck-spec generation/approval).
+
+- Shared contracts for these endpoints live in `schemas/session-api-contracts_v1.schema.json` with a happy-path fixture at `examples/session-api-happy-path.sample_v1.json`.
+- Frontend implementations may keep a `WorkflowState` abstraction, but it must map from backend session payloads (for example `session_id` to frontend workflow identifiers and backend lifecycle status to frontend stage labels).
+- `/workflows/*` is not the source-of-truth API contract in this repository.
+
 ## Key directories
 
-- `schemas/`: Draft 2020-12 JSON schemas for workflow artifacts.
+- `schemas/`: Draft 2020-12 JSON schemas for session-oriented API contracts and workflow artifacts.
 - `configs/`: Versioned YAML configuration sets, including quality/scoring profiles for stage-aware model evaluation.
 - `policies/`: RBAC/ABAC, safety, and export policies.
 - `design-graph/`: Themes, layouts, icon maps, object recipes, and sample slides.

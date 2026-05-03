@@ -19,6 +19,7 @@ SCHEMA_MAP = {
     "clarification-loop-record.sample_v1.json": "clarification-loop-record_v1.schema.json",
     "regenerate-request-record.sample_v1.json": "regenerate-request-record_v1.schema.json",
     "model-comparison-score-record.sample_v1.json": "model-comparison-score-record_v1.schema.json",
+    "session-api-happy-path.sample_v1.json": "session-api-contracts_v1.schema.json",
 }
 
 

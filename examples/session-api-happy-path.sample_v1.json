@@ -1,0 +1,114 @@
+{
+  "CreateSessionRequest": {
+    "actor_id": "user_123",
+    "tenant_id": "tenant_acme",
+    "project_id": "project_q3_board",
+    "thread_id": "thread_001",
+    "locale": "en-US"
+  },
+  "CreateSessionResponse": {
+    "session_id": "sess_abc12345",
+    "thread_id": "thread_001",
+    "status": "created"
+  },
+  "RegisterInputRequest": {
+    "input_text": "Create a board update for Q3 launch readiness.",
+    "actor_id": "user_123"
+  },
+  "RegisterInputResponse": {
+    "session_id": "sess_abc12345",
+    "thread_id": "thread_001",
+    "status": "understanding"
+  },
+  "UnderstandingResponse": {
+    "session_id": "sess_abc12345",
+    "status": "questions_pending",
+    "approval_token": "tok_understanding_01",
+    "understanding": {
+      "session_id": "sess_abc12345",
+      "objective": "Align executives on launch readiness and actions.",
+      "audience": "Executive leadership",
+      "tone": "Concise and data-driven",
+      "key_points": ["Milestones", "Risks", "Mitigations"],
+      "constraints": ["10 slides max"],
+      "assumptions": ["Current timeline remains unchanged"],
+      "risks": ["Dependency delays"]
+    }
+  },
+  "QuestionListResponse": {
+    "session_id": "sess_abc12345",
+    "status": "questions_pending",
+    "questions": [
+      {
+        "question_id": "q_priority01",
+        "session_id": "sess_abc12345",
+        "question": "Which launch date should be used as baseline?",
+        "reason": "Timeline references are inconsistent.",
+        "priority": "high",
+        "blocking": true
+      }
+    ]
+  },
+  "AnswerQuestionRequest": {
+    "answer_text": "Use September 15, 2026 as the launch baseline.",
+    "actor_id": "user_123"
+  },
+  "AnswerQuestionResponse": {
+    "session_id": "sess_abc12345",
+    "question_id": "q_priority01",
+    "status": "understanding"
+  },
+  "ApproveUnderstandingRequest": {
+    "approval_token": "tok_understanding_01",
+    "actor_id": "user_123"
+  },
+  "ApproveUnderstandingResponse": {
+    "session_id": "sess_abc12345",
+    "status": "understanding_approved"
+  },
+  "GenerateOutlineRequest": {
+    "regenerate": false,
+    "actor_id": "user_123"
+  },
+  "OutlineResponse": {
+    "session_id": "sess_abc12345",
+    "status": "outline_draft",
+    "approval_token": "tok_outline_01",
+    "outline": {
+      "session_id": "sess_abc12345",
+      "title": "Q3 Launch Readiness",
+      "sections": [
+        {
+          "section_id": "s1",
+          "heading": "Executive Summary",
+          "slide_count": 2,
+          "bullets": ["Readiness score", "Top risk"]
+        }
+      ]
+    }
+  },
+  "ApproveOutlineRequest": {
+    "approval_token": "tok_outline_01",
+    "actor_id": "user_123"
+  },
+  "ApproveOutlineResponse": {
+    "session_id": "sess_abc12345",
+    "status": "outline_approved"
+  },
+  "GenerateDeckSpecRequest": {
+    "regenerate": false,
+    "actor_id": "user_123"
+  },
+  "DeckSpecResponse": {
+    "session_id": "sess_abc12345",
+    "status": "deck_spec_draft",
+    "deck_spec": {
+      "deck_type": "executive_update",
+      "title": "Q3 Launch Readiness",
+      "subtitle": "Status as of September 2026",
+      "slides": [
+        {"slide_id": "slide_01", "layout": "title_hero"}
+      ]
+    }
+  }
+}
