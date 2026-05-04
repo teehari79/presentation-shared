@@ -1,114 +1,191 @@
 {
   "CreateSessionRequest": {
-    "actor_id": "user_123",
-    "tenant_id": "tenant_acme",
-    "project_id": "project_q3_board",
-    "thread_id": "thread_001",
-    "locale": "en-US"
+    "actor_id": "user@example.com",
+    "tenant_id": "tenant acme",
+    "project_id": "Q3 board update"
   },
   "CreateSessionResponse": {
-    "session_id": "sess_abc12345",
-    "thread_id": "thread_001",
-    "status": "created"
+    "session_id": "sess-abc12345",
+    "thread_id": "thread-sess-abc12345",
+    "actor_id": "user@example.com",
+    "tenant_id": "tenant acme",
+    "project_id": "Q3 board update",
+    "status": "open"
   },
   "RegisterInputRequest": {
-    "input_text": "Create a board update for Q3 launch readiness.",
-    "actor_id": "user_123"
+    "kind": "text",
+    "content": "Create a board update for Q3 launch readiness.",
+    "actor_id": "user@example.com",
+    "tenant_id": "tenant acme",
+    "project_id": "Q3 board update"
   },
   "RegisterInputResponse": {
-    "session_id": "sess_abc12345",
-    "thread_id": "thread_001",
-    "status": "understanding"
+    "input_id": "in-abc12345",
+    "session_id": "sess-abc12345",
+    "thread_id": "thread-sess-abc12345",
+    "actor_id": "user@example.com",
+    "tenant_id": "tenant acme",
+    "project_id": "Q3 board update",
+    "status": "input_registered"
   },
   "UnderstandingResponse": {
-    "session_id": "sess_abc12345",
-    "status": "questions_pending",
-    "approval_token": "tok_understanding_01",
+    "session_id": "sess-abc12345",
+    "thread_id": "thread-sess-abc12345",
     "understanding": {
-      "session_id": "sess_abc12345",
       "objective": "Align executives on launch readiness and actions.",
-      "audience": "Executive leadership",
-      "tone": "Concise and data-driven",
-      "key_points": ["Milestones", "Risks", "Mitigations"],
+      "audience": ["Executive leadership"],
       "constraints": ["10 slides max"],
       "assumptions": ["Current timeline remains unchanged"],
-      "risks": ["Dependency delays"]
-    }
+      "provenance_refs": [],
+      "grounding_report": null
+    },
+    "sufficiency": {
+      "is_sufficient": false,
+      "rationale": "Launch date baseline is missing.",
+      "missing_critical_items": ["launch_date"]
+    },
+    "default_proposal": {"launch_date": "assume September 15, 2026"},
+    "approved": false,
+    "approval_token": "tok-understanding-01",
+    "actor_id": "user@example.com",
+    "tenant_id": "tenant acme",
+    "project_id": "Q3 board update",
+    "status": "needs_clarification"
   },
   "QuestionListResponse": {
-    "session_id": "sess_abc12345",
-    "status": "questions_pending",
+    "session_id": "sess-abc12345",
+    "thread_id": "thread-sess-abc12345",
+    "actor_id": "user@example.com",
+    "tenant_id": "tenant acme",
+    "project_id": "Q3 board update",
     "questions": [
       {
-        "question_id": "q_priority01",
-        "session_id": "sess_abc12345",
-        "question": "Which launch date should be used as baseline?",
-        "reason": "Timeline references are inconsistent.",
-        "priority": "high",
-        "blocking": true
+        "question_id": "q-priority01",
+        "prompt": "Which launch date should be used as baseline?",
+        "reason": "launch_date",
+        "status": "open",
+        "answer": null
       }
-    ]
+    ],
+    "status": "questions_pending"
   },
   "AnswerQuestionRequest": {
-    "answer_text": "Use September 15, 2026 as the launch baseline.",
-    "actor_id": "user_123"
+    "answer": "Use September 15, 2026 as the launch baseline.",
+    "actor_id": "user@example.com",
+    "tenant_id": "tenant acme",
+    "project_id": "Q3 board update"
   },
-  "AnswerQuestionResponse": {
-    "session_id": "sess_abc12345",
-    "question_id": "q_priority01",
-    "status": "understanding"
+  "QuestionAnswerResponse": {
+    "session_id": "sess-abc12345",
+    "thread_id": "thread-sess-abc12345",
+    "actor_id": "user@example.com",
+    "tenant_id": "tenant acme",
+    "project_id": "Q3 board update",
+    "question_id": "q-priority01",
+    "question": {
+      "question_id": "q-priority01",
+      "prompt": "Which launch date should be used as baseline?",
+      "reason": "launch_date",
+      "status": "answered",
+      "answer": "Use September 15, 2026 as the launch baseline."
+    },
+    "status": "question_answered"
   },
   "ApproveUnderstandingRequest": {
-    "approval_token": "tok_understanding_01",
-    "actor_id": "user_123"
+    "approval_token": "tok-understanding-01",
+    "actor_id": "user@example.com",
+    "tenant_id": "tenant acme",
+    "project_id": "Q3 board update"
   },
-  "ApproveUnderstandingResponse": {
-    "session_id": "sess_abc12345",
-    "status": "understanding_approved"
+  "ApprovalResponse": {
+    "session_id": "sess-abc12345",
+    "thread_id": "thread-sess-abc12345",
+    "actor_id": "user@example.com",
+    "tenant_id": "tenant acme",
+    "project_id": "Q3 board update",
+    "approved": true,
+    "immutable_revision": 1,
+    "status": "approved"
   },
   "GenerateOutlineRequest": {
-    "regenerate": false,
-    "actor_id": "user_123"
+    "actor_id": "user@example.com",
+    "tenant_id": "tenant acme",
+    "project_id": "Q3 board update"
   },
   "OutlineResponse": {
-    "session_id": "sess_abc12345",
-    "status": "outline_draft",
-    "approval_token": "tok_outline_01",
+    "session_id": "sess-abc12345",
+    "thread_id": "thread-sess-abc12345",
+    "actor_id": "user@example.com",
+    "tenant_id": "tenant acme",
+    "project_id": "Q3 board update",
     "outline": {
-      "session_id": "sess_abc12345",
       "title": "Q3 Launch Readiness",
-      "sections": [
+      "slides": [
         {
-          "section_id": "s1",
-          "heading": "Executive Summary",
-          "slide_count": 2,
-          "bullets": ["Readiness score", "Top risk"]
+          "role": "opening",
+          "purpose": "Set decision context",
+          "key_message": "Launch readiness is high with two watch items",
+          "visual_intent": "status scoreboard",
+          "content_blocks": [{"heading": "Readiness", "bullets": ["Product: green", "Ops: yellow"]}],
+          "speaker_notes": ["Frame risks and confidence."],
+          "confidence": 0.84,
+          "explanation": {"reasoning": "Matches objective.", "source_signals": ["objective"]},
+          "provenance_refs": []
         }
-      ]
-    }
+      ],
+      "provenance_refs": [],
+      "grounding_report": null
+    },
+    "approved": false,
+    "approval_token": "tok-outline-01",
+    "status": "outline_draft"
   },
   "ApproveOutlineRequest": {
-    "approval_token": "tok_outline_01",
-    "actor_id": "user_123"
+    "approval_token": "tok-outline-01",
+    "actor_id": "user@example.com",
+    "tenant_id": "tenant acme",
+    "project_id": "Q3 board update"
   },
-  "ApproveOutlineResponse": {
-    "session_id": "sess_abc12345",
+  "OutlineApprovalResponse": {
+    "session_id": "sess-abc12345",
+    "thread_id": "thread-sess-abc12345",
+    "actor_id": "user@example.com",
+    "tenant_id": "tenant acme",
+    "project_id": "Q3 board update",
+    "approved": true,
+    "immutable_revision": 1,
     "status": "outline_approved"
   },
   "GenerateDeckSpecRequest": {
-    "regenerate": false,
-    "actor_id": "user_123"
+    "actor_id": "user@example.com",
+    "tenant_id": "tenant acme",
+    "project_id": "Q3 board update"
   },
   "DeckSpecResponse": {
-    "session_id": "sess_abc12345",
-    "status": "deck_spec_draft",
+    "session_id": "sess-abc12345",
+    "thread_id": "thread-sess-abc12345",
+    "actor_id": "user@example.com",
+    "tenant_id": "tenant acme",
+    "project_id": "Q3 board update",
     "deck_spec": {
-      "deck_type": "executive_update",
       "title": "Q3 Launch Readiness",
-      "subtitle": "Status as of September 2026",
+      "theme": "enterprise-dark",
       "slides": [
-        {"slide_id": "slide_01", "layout": "title_hero"}
-      ]
-    }
+        {
+          "role": "opening",
+          "purpose": "Set decision context",
+          "key_message": "Launch readiness is high with two watch items",
+          "visual_intent": "status scoreboard",
+          "content_blocks": [{"heading": "Readiness", "bullets": ["Product: green", "Ops: yellow"]}],
+          "speaker_notes": ["Close with a go/no-go recommendation."],
+          "confidence": 0.86,
+          "explanation": {"reasoning": "Maps outline to deck.", "source_signals": ["outline"]},
+          "provenance_refs": []
+        }
+      ],
+      "provenance_refs": [],
+      "grounding_report": null
+    },
+    "status": "deck_spec_ready"
   }
 }

@@ -11,14 +11,14 @@
     "RegisterInputResponse",
     "UnderstandingResponse",
     "ApproveUnderstandingRequest",
-    "ApproveUnderstandingResponse",
+    "ApprovalResponse",
     "QuestionListResponse",
     "AnswerQuestionRequest",
-    "AnswerQuestionResponse",
+    "QuestionAnswerResponse",
     "GenerateOutlineRequest",
     "OutlineResponse",
     "ApproveOutlineRequest",
-    "ApproveOutlineResponse",
+    "OutlineApprovalResponse",
     "GenerateDeckSpecRequest",
     "DeckSpecResponse"
   ],
@@ -28,174 +28,234 @@
     "RegisterInputRequest": {"$ref": "#/$defs/RegisterInputRequest"},
     "RegisterInputResponse": {"$ref": "#/$defs/RegisterInputResponse"},
     "UnderstandingResponse": {"$ref": "#/$defs/UnderstandingResponse"},
-    "ApproveUnderstandingRequest": {"$ref": "#/$defs/ApproveUnderstandingRequest"},
-    "ApproveUnderstandingResponse": {"$ref": "#/$defs/ApproveUnderstandingResponse"},
+    "ApproveUnderstandingRequest": {"$ref": "#/$defs/ApprovalRequest"},
+    "ApprovalResponse": {"$ref": "#/$defs/ApprovalResponse"},
     "QuestionListResponse": {"$ref": "#/$defs/QuestionListResponse"},
-    "AnswerQuestionRequest": {"$ref": "#/$defs/AnswerQuestionRequest"},
-    "AnswerQuestionResponse": {"$ref": "#/$defs/AnswerQuestionResponse"},
-    "GenerateOutlineRequest": {"$ref": "#/$defs/GenerateOutlineRequest"},
+    "AnswerQuestionRequest": {"$ref": "#/$defs/QuestionAnswerRequest"},
+    "QuestionAnswerResponse": {"$ref": "#/$defs/QuestionAnswerResponse"},
+    "GenerateOutlineRequest": {"$ref": "#/$defs/GenerateArtifactRequest"},
     "OutlineResponse": {"$ref": "#/$defs/OutlineResponse"},
-    "ApproveOutlineRequest": {"$ref": "#/$defs/ApproveOutlineRequest"},
-    "ApproveOutlineResponse": {"$ref": "#/$defs/ApproveOutlineResponse"},
-    "GenerateDeckSpecRequest": {"$ref": "#/$defs/GenerateDeckSpecRequest"},
+    "ApproveOutlineRequest": {"$ref": "#/$defs/ApprovalRequest"},
+    "OutlineApprovalResponse": {"$ref": "#/$defs/OutlineApprovalResponse"},
+    "GenerateDeckSpecRequest": {"$ref": "#/$defs/GenerateArtifactRequest"},
     "DeckSpecResponse": {"$ref": "#/$defs/DeckSpecResponse"}
   },
   "$defs": {
-    "CreateSessionRequest": {
+    "Status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "needs_clarification",
+        "ready_for_approval",
+        "approved",
+        "questions_pending",
+        "questions_resolved",
+        "outline_draft",
+        "outline_approved",
+        "deck_spec_ready",
+        "input_registered",
+        "question_answered"
+      ]
+    },
+    "ContextFields": {
       "type": "object",
-      "additionalProperties": false,
-      "required": ["actor_id", "tenant_id", "project_id"],
+      "additionalProperties": true,
       "properties": {
         "actor_id": {"type": "string", "minLength": 1},
         "tenant_id": {"type": "string", "minLength": 1},
-        "project_id": {"type": "string", "minLength": 1},
-        "thread_id": {"type": "string", "minLength": 1},
-        "locale": {"type": "string", "minLength": 2}
+        "project_id": {"type": ["string", "null"], "minLength": 1}
+      }
+    },
+    "CreateSessionRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_id", "tenant_id"],
+      "properties": {
+        "actor_id": {"type": "string", "minLength": 1},
+        "tenant_id": {"type": "string", "minLength": 1},
+        "project_id": {"type": ["string", "null"], "minLength": 1}
       }
     },
     "CreateSessionResponse": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["session_id", "thread_id", "status"],
+      "required": ["session_id", "thread_id", "actor_id", "tenant_id", "status"],
       "properties": {
-        "session_id": {"type": "string", "pattern": "^sess_[A-Za-z0-9_-]{8,}$"},
+        "session_id": {"type": "string", "pattern": "^sess-[A-Za-z0-9_-]{8,}$"},
         "thread_id": {"type": "string", "minLength": 1},
-        "status": {"type": "string", "enum": ["created", "understanding", "questions_pending", "understanding_approved", "outline_draft", "outline_approved", "deck_spec_draft", "completed", "failed"]}
+        "actor_id": {"type": "string", "minLength": 1},
+        "tenant_id": {"type": "string", "minLength": 1},
+        "project_id": {"type": ["string", "null"], "minLength": 1},
+        "status": {"const": "open"}
       }
     },
     "RegisterInputRequest": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["input_text"],
+      "required": ["content", "actor_id", "tenant_id"],
       "properties": {
-        "input_text": {"type": "string", "minLength": 1},
-        "actor_id": {"type": "string", "minLength": 1}
+        "kind": {"type": "string", "enum": ["text"]},
+        "content": {"type": "string", "minLength": 1},
+        "actor_id": {"type": "string", "minLength": 1},
+        "tenant_id": {"type": "string", "minLength": 1},
+        "project_id": {"type": ["string", "null"], "minLength": 1}
       }
     },
     "RegisterInputResponse": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["session_id", "thread_id", "status"],
+      "required": ["input_id", "session_id", "thread_id", "actor_id", "tenant_id", "status"],
       "properties": {
+        "input_id": {"type": "string", "minLength": 1},
         "session_id": {"type": "string"},
         "thread_id": {"type": "string"},
-        "status": {"type": "string"}
+        "actor_id": {"type": "string"},
+        "tenant_id": {"type": "string"},
+        "project_id": {"type": ["string", "null"]},
+        "status": {"const": "input_registered"}
       }
     },
     "UnderstandingResponse": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["session_id", "status", "understanding"],
+      "required": ["session_id", "thread_id", "understanding", "sufficiency", "default_proposal", "approved", "actor_id", "tenant_id", "status"],
       "properties": {
         "session_id": {"type": "string"},
-        "status": {"type": "string"},
+        "thread_id": {"type": "string"},
         "understanding": {"$ref": "https://presentation-shared/schemas/extracted-understanding.schema.json"},
-        "approval_token": {"type": "string", "minLength": 1}
+        "sufficiency": {"$ref": "https://presentation-shared/schemas/sufficiency-assessment.schema.json"},
+        "default_proposal": {"type": "object"},
+        "approved": {"type": "boolean"},
+        "approval_token": {"type": ["string", "null"]},
+        "actor_id": {"type": "string"},
+        "tenant_id": {"type": "string"},
+        "project_id": {"type": ["string", "null"]},
+        "status": {"type": "string", "enum": ["needs_clarification", "ready_for_approval", "approved"]}
       }
     },
-    "ApproveUnderstandingRequest": {
+    "ApprovalRequest": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["approval_token"],
+      "required": ["actor_id", "tenant_id"],
       "properties": {
-        "approval_token": {"type": "string", "minLength": 1},
-        "actor_id": {"type": "string", "minLength": 1}
+        "actor_id": {"type": "string", "minLength": 1},
+        "tenant_id": {"type": "string", "minLength": 1},
+        "project_id": {"type": ["string", "null"], "minLength": 1},
+        "approval_token": {"type": ["string", "null"], "minLength": 1}
       }
     },
-    "ApproveUnderstandingResponse": {
+    "ApprovalResponse": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["session_id", "status"],
+      "required": ["session_id", "thread_id", "actor_id", "tenant_id", "approved", "immutable_revision", "status"],
       "properties": {
         "session_id": {"type": "string"},
-        "status": {"type": "string", "enum": ["understanding_approved", "questions_pending"]}
+        "thread_id": {"type": "string"},
+        "actor_id": {"type": "string"},
+        "tenant_id": {"type": "string"},
+        "project_id": {"type": ["string", "null"]},
+        "approved": {"type": "boolean"},
+        "immutable_revision": {"type": "integer", "minimum": 1},
+        "status": {"const": "approved"}
       }
     },
     "QuestionListResponse": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["session_id", "status", "questions"],
+      "required": ["session_id", "thread_id", "actor_id", "tenant_id", "questions", "status"],
       "properties": {
         "session_id": {"type": "string"},
-        "status": {"type": "string"},
+        "thread_id": {"type": "string"},
+        "actor_id": {"type": "string"},
+        "tenant_id": {"type": "string"},
+        "project_id": {"type": ["string", "null"]},
         "questions": {
           "type": "array",
           "items": {"$ref": "https://presentation-shared/schemas/clarification-question.schema.json"}
-        }
+        },
+        "status": {"type": "string", "enum": ["questions_pending", "questions_resolved"]}
       }
     },
-    "AnswerQuestionRequest": {
+    "QuestionAnswerRequest": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["answer_text"],
+      "required": ["actor_id", "tenant_id", "answer"],
       "properties": {
-        "answer_text": {"type": "string", "minLength": 1},
-        "actor_id": {"type": "string", "minLength": 1}
+        "actor_id": {"type": "string", "minLength": 1},
+        "tenant_id": {"type": "string", "minLength": 1},
+        "project_id": {"type": ["string", "null"], "minLength": 1},
+        "answer": {"type": "string", "minLength": 1}
       }
     },
-    "AnswerQuestionResponse": {
+    "QuestionAnswerResponse": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["session_id", "question_id", "status"],
+      "required": ["session_id", "thread_id", "actor_id", "tenant_id", "question_id", "question", "status"],
       "properties": {
         "session_id": {"type": "string"},
+        "thread_id": {"type": "string"},
+        "actor_id": {"type": "string"},
+        "tenant_id": {"type": "string"},
+        "project_id": {"type": ["string", "null"]},
         "question_id": {"type": "string"},
-        "status": {"type": "string"}
+        "question": {"$ref": "https://presentation-shared/schemas/clarification-question.schema.json"},
+        "status": {"const": "question_answered"}
       }
     },
-    "GenerateOutlineRequest": {
+    "GenerateArtifactRequest": {
       "type": "object",
       "additionalProperties": false,
+      "required": ["actor_id", "tenant_id"],
       "properties": {
-        "regenerate": {"type": "boolean", "default": false},
-        "actor_id": {"type": "string", "minLength": 1}
+        "actor_id": {"type": "string", "minLength": 1},
+        "tenant_id": {"type": "string", "minLength": 1},
+        "project_id": {"type": ["string", "null"], "minLength": 1},
+        "approval_token": {"type": ["string", "null"], "minLength": 1}
       }
     },
     "OutlineResponse": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["session_id", "status", "outline"],
+      "required": ["session_id", "thread_id", "actor_id", "tenant_id", "outline", "approved", "status"],
       "properties": {
         "session_id": {"type": "string"},
-        "status": {"type": "string"},
+        "thread_id": {"type": "string"},
+        "actor_id": {"type": "string"},
+        "tenant_id": {"type": "string"},
+        "project_id": {"type": ["string", "null"]},
         "outline": {"$ref": "https://presentation-shared/schemas/outline.schema.json"},
-        "approval_token": {"type": "string", "minLength": 1}
+        "approved": {"type": "boolean"},
+        "approval_token": {"type": ["string", "null"]},
+        "status": {"type": "string", "enum": ["outline_draft", "outline_approved"]}
       }
     },
-    "ApproveOutlineRequest": {
+    "OutlineApprovalResponse": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["approval_token"],
-      "properties": {
-        "approval_token": {"type": "string", "minLength": 1},
-        "actor_id": {"type": "string", "minLength": 1}
-      }
-    },
-    "ApproveOutlineResponse": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["session_id", "status"],
+      "required": ["session_id", "thread_id", "actor_id", "tenant_id", "approved", "immutable_revision", "status"],
       "properties": {
         "session_id": {"type": "string"},
-        "status": {"type": "string", "enum": ["outline_approved"]}
-      }
-    },
-    "GenerateDeckSpecRequest": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "regenerate": {"type": "boolean", "default": false},
-        "actor_id": {"type": "string", "minLength": 1}
+        "thread_id": {"type": "string"},
+        "actor_id": {"type": "string"},
+        "tenant_id": {"type": "string"},
+        "project_id": {"type": ["string", "null"]},
+        "approved": {"type": "boolean"},
+        "immutable_revision": {"type": "integer", "minimum": 1},
+        "status": {"const": "outline_approved"}
       }
     },
     "DeckSpecResponse": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["session_id", "status", "deck_spec"],
+      "required": ["session_id", "thread_id", "actor_id", "tenant_id", "deck_spec", "status"],
       "properties": {
         "session_id": {"type": "string"},
-        "status": {"type": "string"},
-        "deck_spec": {"$ref": "https://presentation-shared/schemas/deck-spec.schema.json"}
+        "thread_id": {"type": "string"},
+        "actor_id": {"type": "string"},
+        "tenant_id": {"type": "string"},
+        "project_id": {"type": ["string", "null"]},
+        "deck_spec": {"$ref": "https://presentation-shared/schemas/deck-spec.schema.json"},
+        "status": {"const": "deck_spec_ready"}
       }
     }
   }

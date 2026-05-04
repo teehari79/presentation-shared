@@ -1,12 +1,27 @@
 {
-  "deck_type": "executive_update",
-  "title": "Q3 Growth Strategy",
-  "subtitle": "Board Briefing",
+  "title": "Q3 Launch Readiness",
+  "theme": "enterprise-dark",
   "slides": [
     {
-      "slide_id": "slide_1",
-      "layout": "title_hero",
-      "title": "Q3 Growth Strategy"
+      "role": "opening",
+      "purpose": "Set decision context",
+      "key_message": "Launch readiness is high with two watch items",
+      "visual_intent": "status scoreboard",
+      "content_blocks": [
+        {
+          "heading": "Readiness",
+          "bullets": ["Product: green", "Ops: yellow", "Legal: green"]
+        }
+      ],
+      "speaker_notes": ["Close with a go/no-go recommendation."],
+      "confidence": 0.86,
+      "explanation": {
+        "reasoning": "Maps each watch item to a decision gate.",
+        "source_signals": ["outline.key_message", "outline.content_blocks"]
+      },
+      "provenance_refs": []
     }
-  ]
+  ],
+  "provenance_refs": [],
+  "grounding_report": null
 }

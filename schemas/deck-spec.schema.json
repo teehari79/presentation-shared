@@ -1,15 +1,29 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/deck-spec.schema.json",
   "title": "DeckSpec",
   "type": "object",
-  "required": ["deck_type", "title", "slides"],
+  "additionalProperties": false,
+  "required": ["title", "theme", "slides"],
   "properties": {
-    "deck_type": {"type": "string"},
-    "title": {"type": "string"},
-    "subtitle": {"type": ["string", "null"]},
+    "title": {"type": "string", "minLength": 1},
+    "theme": {"type": "string", "minLength": 1},
     "slides": {
       "type": "array",
-      "items": {"type": "object"}
-    }
+      "items": {"$ref": "https://presentation-shared/schemas/outline.schema.json#/$defs/SlideSpec"}
+    },
+    "provenance_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_id", "excerpt"],
+        "properties": {
+          "source_id": {"type": "string"},
+          "excerpt": {"type": "string"}
+        }
+      }
+    },
+    "grounding_report": {"type": ["object", "null"]}
   }
 }

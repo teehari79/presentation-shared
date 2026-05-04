@@ -4,23 +4,62 @@
   "title": "Presentation Outline",
   "type": "object",
   "additionalProperties": false,
-  "required": ["session_id", "title", "sections"],
+  "required": ["title", "slides"],
   "properties": {
-    "session_id": {"type": "string"},
-    "title": {"type": "string"},
-    "sections": {
+    "title": {"type": "string", "minLength": 1},
+    "slides": {
       "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["section_id", "heading", "slide_count"],
-        "properties": {
-          "section_id": {"type": "string"},
-          "heading": {"type": "string"},
-          "slide_count": {"type": "integer", "minimum": 1},
-          "bullets": {"type": "array", "items": {"type": "string"}}
-        }
+      "items": {"$ref": "#/$defs/SlideSpec"}
+    },
+    "provenance_refs": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/ProvenanceReference"}
+    },
+    "grounding_report": {"type": ["object", "null"]}
+  },
+  "$defs": {
+    "SlideSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "purpose", "key_message", "visual_intent", "confidence", "explanation"],
+      "properties": {
+        "role": {"type": "string"},
+        "purpose": {"type": "string"},
+        "key_message": {"type": "string"},
+        "visual_intent": {"type": "string"},
+        "content_blocks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["heading", "bullets"],
+            "properties": {
+              "heading": {"type": "string"},
+              "bullets": {"type": "array", "items": {"type": "string"}}
+            }
+          }
+        },
+        "speaker_notes": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "explanation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["reasoning", "source_signals"],
+          "properties": {
+            "reasoning": {"type": "string"},
+            "source_signals": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "provenance_refs": {"type": "array", "items": {"$ref": "#/$defs/ProvenanceReference"}}
+      }
+    },
+    "ProvenanceReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "excerpt"],
+      "properties": {
+        "source_id": {"type": "string"},
+        "excerpt": {"type": "string"}
       }
     }
   }

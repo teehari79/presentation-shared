@@ -1,18 +1,26 @@
 {
-  "session_id": "sess_abc12345",
-  "title": "Q3 Growth Strategy",
-  "sections": [
+  "title": "Q3 Launch Readiness",
+  "slides": [
     {
-      "section_id": "sec_1",
-      "heading": "Context and Ambition",
-      "slide_count": 2,
-      "bullets": ["Market context", "Target outcomes"]
-    },
-    {
-      "section_id": "sec_2",
-      "heading": "Strategic Initiatives",
-      "slide_count": 4,
-      "bullets": ["Initiative portfolio", "Prioritization logic"]
+      "role": "opening",
+      "purpose": "Set decision context",
+      "key_message": "Launch readiness is high with two watch items",
+      "visual_intent": "status scoreboard",
+      "content_blocks": [
+        {
+          "heading": "Readiness",
+          "bullets": ["Product: green", "Ops: yellow", "Legal: green"]
+        }
+      ],
+      "speaker_notes": ["Frame risks and confidence."],
+      "confidence": 0.84,
+      "explanation": {
+        "reasoning": "Mirrors objective and audience urgency.",
+        "source_signals": ["objective", "constraints"]
+      },
+      "provenance_refs": []
     }
-  ]
+  ],
+  "provenance_refs": [],
+  "grounding_report": null
 }

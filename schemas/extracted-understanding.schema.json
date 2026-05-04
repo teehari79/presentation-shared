@@ -4,15 +4,24 @@
   "title": "Extracted Understanding",
   "type": "object",
   "additionalProperties": false,
-  "required": ["session_id", "objective", "audience", "key_points", "constraints", "assumptions"],
+  "required": ["objective"],
   "properties": {
-    "session_id": {"type": "string"},
     "objective": {"type": "string", "minLength": 1},
-    "audience": {"type": "string", "minLength": 1},
-    "tone": {"type": "string"},
-    "key_points": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "audience": {"type": "array", "items": {"type": "string"}},
     "constraints": {"type": "array", "items": {"type": "string"}},
     "assumptions": {"type": "array", "items": {"type": "string"}},
-    "risks": {"type": "array", "items": {"type": "string"}}
+    "provenance_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_id", "excerpt"],
+        "properties": {
+          "source_id": {"type": "string"},
+          "excerpt": {"type": "string"}
+        }
+      }
+    },
+    "grounding_report": {"type": ["object", "null"]}
   }
 }
