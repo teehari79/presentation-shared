@@ -1,0 +1,20 @@
+{
+  "requestId": "req-render-001",
+  "mimeType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "fileBase64": "UEsDBAoAAAAAA",
+  "metrics": {
+    "slidesRendered": 1,
+    "elementsRendered": 2,
+    "degradedElements": 0,
+    "fallbackLayouts": 0
+  },
+  "preview": {
+    "status": "generated",
+    "pages": [
+      {
+        "slideId": "slide-1",
+        "previewUrl": "/artifacts/preview/req-render-001/slide-1.png"
+      }
+    ]
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentation-shared/schemas/render-response.schema.json",
+  "title": "RenderResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["requestId"],
+  "properties": {
+    "requestId": {"type": "string", "minLength": 1},
+    "mimeType": {"type": "string"},
+    "fileBase64": {"type": "string"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "artifactId": {"type": "string"},
+        "url": {"type": "string"},
+        "storageKey": {"type": "string"}
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "slidesRendered": {"type": "integer", "minimum": 0},
+        "elementsRendered": {"type": "integer", "minimum": 0},
+        "degradedElements": {"type": "integer", "minimum": 0},
+        "fallbackLayouts": {"type": "integer", "minimum": 0}
+      }
+    },
+    "preview": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "status": {"type": "string", "enum": ["generated", "failed"]},
+        "pages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["slideId", "previewUrl"],
+            "properties": {
+              "slideId": {"type": "string"},
+              "previewUrl": {"type": ["string", "null"]}
+            }
+          }
+        },
+        "error": {"type": "string"}
+      }
+    }
+  },
+  "anyOf": [
+    {"required": ["fileBase64"]},
+    {"required": ["artifact"]},
+    {"required": ["preview"]}
+  ]
+}

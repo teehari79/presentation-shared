@@ -1,12 +1,36 @@
 {
-  "theme_id": "consulting_clean",
-  "strict_corporate_mode": true,
-  "density_preference": "balanced",
+  "requestId": "req-render-001",
+  "tenantId": "tenant-acme",
+  "deckSpecVersion": "1.0.0",
+  "themeId": "consulting_clean",
   "slides": [
     {
-      "slide_id": "slide_1",
-      "layout": "title_hero",
-      "bindings": {"title": "Q3 Growth Strategy"}
+      "id": "slide-1",
+      "layoutId": "title-content",
+      "title": "Q3 Growth Strategy",
+      "notes": "Open by framing the decision and desired outcome.",
+      "elements": [
+        {
+          "type": "text",
+          "id": "slide-1-title",
+          "x": 0.6,
+          "y": 0.4,
+          "w": 12.0,
+          "h": 0.7,
+          "text": "Q3 Growth Strategy",
+          "fontSize": 28
+        },
+        {
+          "type": "bullets",
+          "id": "slide-1-bullets",
+          "x": 0.8,
+          "y": 1.4,
+          "w": 6.2,
+          "h": 3.4,
+          "items": ["Expand enterprise pipeline", "Protect onboarding quality"],
+          "fontSize": 18
+        }
+      ]
     }
   ]
 }

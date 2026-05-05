@@ -11,6 +11,7 @@ SCHEMA_MAP = {
     "outline.sample.json": "outline.schema.json",
     "deck-spec.sample.json": "deck-spec.schema.json",
     "render-plan.sample.json": "render-plan.schema.json",
+    "render-response.sample.json": "render-response.schema.json",
     "safety-check-result.sample.json": "safety-check-result.schema.json",
     "llm-tool-cache-log-record.sample.json": "llm-tool-cache-log-record.schema.json",
     "feedback-thumbs-event.sample_v1.json": "feedback-thumbs-event_v1.schema.json",
