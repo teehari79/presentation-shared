@@ -1,0 +1,7 @@
+enable_clarification_roundtrip: true
+enable_citation_enforcement: true
+enable_icon_suggestion: false
+enable_safety: true
+enable_telemetry: true
+enable_cache: true
+enable_circuit_breaker: true

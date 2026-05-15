@@ -1,0 +1,26 @@
+allowed_nodes: {}
+blocked_terms:
+  - secret
+  - password
+  - ssn
+pii_patterns:
+  - "\\b\\d{3}-\\d{2}-\\d{4}\\b"
+  - "\\b[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,}\\b"
+secret_patterns:
+  - "api[_-]?key"
+  - "secret"
+  - "password"
+toxicity_terms:
+  - "hate"
+  - "kill"
+bias_terms:
+  - "inferior race"
+  - "gender can't"
+export_block_terms:
+  - "confidential"
+  - "restricted"
+prompt_injection:
+  detect_threshold: 1.0
+  hitl_threshold: 2.0
+  block_threshold: 3.0
+  allow_payload_logging: false
