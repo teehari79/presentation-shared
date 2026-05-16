@@ -1,0 +1,20 @@
+version: v1
+kind: semantic_cache_policy
+default_similarity_threshold: 0.92
+default_max_age_seconds: 86400
+allowed_artifact_types:
+  - understanding
+  - sufficiency
+  - clarification_questions
+  - outline
+  - template_recommendation
+deck_spec_cache:
+  enabled_by_default: false
+safety_controls:
+  require_tenant_filter: true
+  require_project_filter_when_available: true
+  require_prompt_version_filter: true
+  require_schema_version_filter: true
+  require_provenance: true
+  block_hitl_required_entries: true
+  block_unapproved_entries: true
